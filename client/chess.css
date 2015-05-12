@@ -1,0 +1,52 @@
+.outer {
+    margin: 0 auto;
+    max-width: 480px;
+}
+
+.title {
+    font-size: 1.5em;
+    font-weight: 600;
+    letter-spacing: .3em;
+    margin: 0 0 .25em;
+    text-align: center;
+    text-indent: .3em;
+    text-transform: uppercase;
+}
+
+#board
+{
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0px auto;
+    width: 336px;
+    height: 336px;
+}
+
+.square:nth-child(even){
+
+}
+
+.square:nth-child(odd){
+
+}
+
+.square:nth-child(8n){
+
+}
+
+.square {
+    width: 42px;
+    height: 42px;
+}
+
+.square:hover {
+    border: inset 1px rgba(255,255,255,1);
+}
+
+.square.dark{
+    background: #000000;
+}
+
+.square.light {
+    background: #ff0000;
+}
