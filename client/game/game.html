@@ -1,0 +1,25 @@
+<template name="Game">
+  {{> Nav}}
+    <h1>{{title}}</h1>
+
+    {{#with game}}
+    {{> Board}}
+      <div>
+        {{#each clicks}}
+            <div>{{this}}</div>
+        {{/each}}
+      </div>
+    {{/with}}
+</template>
+
+<template name="Board">
+    <div id="board">
+      {{#each squares}}
+        {{> Square}}
+      {{/each}}
+    </div>
+</template>
+
+<template name="Square">
+    <div class="square {{color}}">{{coordinate}}</div>
+</template>

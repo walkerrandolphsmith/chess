@@ -1,36 +1,6 @@
 <head>
-    <title>Leaderboard</title>
+    <title>Chess</title>
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
 </head>
-
-<body>
-<div class="outer">
-    <h1 class="title">Chess</h1>
-  {{> game}}
-  {{> loginButtons }}
-</div>
-</body>
-
-<template name="game">
-  {{#with game}}
-    {{> board}}
-     <div>
-        {{#each clicks}}
-            <div>{{this}}</div>
-        {{/each}}
-    </div>
-  {{/with}}
-</template>
-
-<template name="board">
-    <div id="board">
-      {{#each squares}}
-        {{> square}}
-      {{/each}}
-    </div>
-</template>
-
-<template name="square">
-    <div class="square {{color}}">{{coordinate}}</div>
-</template>
+<body></body>

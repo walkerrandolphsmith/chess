@@ -1,12 +1,12 @@
-Template.Board.helpers({
-    squares: function(){
-        return Squares.find()
-    }
-});
-
 Template.Game.helpers({
     game: function(){
         return Games.findOne({players: Meteor.userId()});
+    }
+});
+
+Template.Board.helpers({
+    squares: function(){
+        return Squares.find()
     }
 });
 
@@ -31,9 +31,11 @@ Meteor.startup(function () {
 
             var position = (8 - r) + letters[c];
             Squares.insert({
-                coordinate: position,
+                index: i,
+                coordinates: coordinates,
+                position: position,
                 color: isDark(r, c) ? "dark" : "light",
-                index: i
+                piece: {}
             });
         }
     }
@@ -53,4 +55,3 @@ function getCoordinatesGivenIndex(index) {
         row: Math.floor(index / 8)
     };
 }
-

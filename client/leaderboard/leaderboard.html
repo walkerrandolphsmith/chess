@@ -1,0 +1,29 @@
+<template name="Leaderboard">
+    {{> Nav }}
+    <h1>{{title}}</h1>
+
+    <ul>
+    <li>
+      <span class="name">
+        Account
+      </span>
+      <span class="win-loss-ratio">
+          Win/Loss Ratio
+      </span>
+    </li>
+    {{#each players}}
+      {{> Stat }}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="Stat">
+    <li>
+        <span>
+            {{email}}
+        </span>
+        <span>
+            0.5
+        </span>
+    </li>
+</template>
