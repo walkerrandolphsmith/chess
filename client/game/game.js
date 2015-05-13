@@ -54,4 +54,21 @@ function getCoordinatesGivenIndex(index) {
         column: index % 8,
         row: Math.floor(index / 8)
     };
-}
+}var whitePeices = {
+    queen: "&#9812;",
+    king: "&#9813;",
+    rook: "&#9814;",
+    bishop: "&#9815;",
+    knight: "&#9816;",
+    pawn: "&#9817;"
+};
+
+var blackPieces = {
+    queen: "&#9818;",
+    king: "&#9819;",
+    rook: "&#9820;",
+    bishop: "&#9821;",
+    knight: "&#9822;",
+    pawn: "&#9823;"
+};
+
