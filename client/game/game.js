@@ -13,33 +13,37 @@ Template.Board.helpers({
 Template.Square.events({
     "click": function(){
         var square = Template.currentData();
-        console.log(square.coordinate);
-        console.log(Template.parentData()._id, Template.parentData());
+        var game = Template.parentData();
+        console.log("SQUARE: ", square);
+        console.log("GAME ID: ", game._id);
+        console.log("GAME: ", game);
 
-        Games.update(Template.parentData()._id, {$push: {clicks: square.coordinate}})
+        //Games.update(game._id, {$push: {clicks: square.position}})
     }
 });
 
 Meteor.startup(function () {
-    var letters = ['a','b','c','d','e','f','g','h'];
-
     if(Squares.find().count() === 0) {
         for(var i = 0; i < 64; i++){
             var coordinates = getCoordinatesGivenIndex(i);
             var r = coordinates.row;
             var c = coordinates.column;
 
-            var position = (8 - r) + letters[c];
             Squares.insert({
                 index: i,
                 coordinates: coordinates,
-                position: position,
+                position: getPosition(r,c),
                 color: isDark(r, c) ? "dark" : "light",
-                piece: {}
+                piece: pieces[i]
             });
         }
     }
 });
+
+function getPosition(row, column){
+    var letters = ['a','b','c','d','e','f','g','h'];
+    return (8 - row) + letters[column];
+}
 
 function isDark(row, column){
     return (row % 2 != column % 2) ? true : false;
@@ -54,21 +58,41 @@ function getCoordinatesGivenIndex(index) {
         column: index % 8,
         row: Math.floor(index / 8)
     };
-}var whitePeices = {
-    queen: "&#9812;",
-    king: "&#9813;",
-    rook: "&#9814;",
-    bishop: "&#9815;",
-    knight: "&#9816;",
-    pawn: "&#9817;"
-};
+}
 
-var blackPieces = {
-    queen: "&#9818;",
-    king: "&#9819;",
-    rook: "&#9820;",
-    bishop: "&#9821;",
-    knight: "&#9822;",
-    pawn: "&#9823;"
+var pieces = {
+    0: "&#9820;", //rook
+    1: "&#9822;", //knight
+    2: "&#9821;", //bishop
+    3: "&#9818;", //queen
+    4: "&#9819;", //king
+    5: "&#9821;", //bishop
+    6: "&#9822;", //knight
+    7: "&#9820;", //rook
+    8: "&#9823;", //pawn
+    9: "&#9823;", //pawn
+    10: "&#9823;", //pawn
+    11: "&#9823;", //pawn
+    12: "&#9823;", //pawn
+    13: "&#9823;", //pawn
+    14: "&#9823;", //pawn
+    15: "&#9823;", //pawn
+
+    48: "&#9817;", //pawn
+    49: "&#9817;", //pawn
+    50: "&#9817;", //pawn
+    51: "&#9817;", //pawn
+    52: "&#9817;", //pawn
+    53: "&#9817;", //pawn
+    54: "&#9817;", //pawn
+    55: "&#9817;", //pawn
+    56: "&#9814;", //rook
+    57: "&#9816;", //knight
+    58: "&#9815;", //bishop
+    59: "&#9812;", //queen
+    60: "&#9813;", //king
+    61: "&#9815;", //bishop
+    62: "&#9816;", //knight
+    63: "&#9814;" //rook
 };
 

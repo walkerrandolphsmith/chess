@@ -1,14 +1,7 @@
 <template name="Game">
   {{> Nav}}
-    <h1>{{title}}</h1>
-
     {{#with game}}
-    {{> Board}}
-      <div>
-        {{#each clicks}}
-            <div>{{this}}</div>
-        {{/each}}
-      </div>
+        {{> Board}}
     {{/with}}
 </template>
 
@@ -21,5 +14,5 @@
 </template>
 
 <template name="Square">
-    <div class="square {{color}}">{{coordinate}}</div>
+    <div id="{{position}}" class="square {{color}}">{{{piece}}}</div>
 </template>

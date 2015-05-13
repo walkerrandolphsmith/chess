@@ -7,32 +7,35 @@
     height: 336px;
 }
 
-.square:nth-child(even){
-
-}
-
-.square:nth-child(odd){
-
-}
-
-.square:nth-child(8n){
-
-}
-
 .square {
     width: 42px;
     height: 42px;
+    color: white;
+    font-size: 30px;
+    text-align: center;
     box-sizing: border-box;
-}
 
-.square:hover {
-    border: inset 1px rgba(255,255,255,1);
-}
+    &:hover {
+        border: inset 1px rgba(255,255,255,1);
+    }
 
-.square.dark{
-    background: #000000;
-}
+    &:nth-child(even) {
 
-.square.light {
-    background: #ff0000;
+    }
+
+    &:nth-child(odd) {
+
+    }
+
+    &:nth-child(8n) {
+
+    }
+
+    &.dark {
+        background: #64494D;
+    }
+
+    &.light {
+        background: #C8B08F;
+    }
 }

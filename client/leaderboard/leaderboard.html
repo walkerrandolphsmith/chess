@@ -1,20 +1,14 @@
 <template name="Leaderboard">
     {{> Nav }}
-    <h1>{{title}}</h1>
-
-    <ul>
-    <li>
-      <span class="name">
-        Account
-      </span>
-      <span class="win-loss-ratio">
-          Win/Loss Ratio
-      </span>
-    </li>
-    {{#each players}}
-      {{> Stat }}
-    {{/each}}
-  </ul>
+    <ul id="leaderboard">
+        <li>
+          <span>Account</span>
+          <span>Win/Loss Ratio</span>
+        </li>
+        {{#each players}}
+          {{> Stat }}
+        {{/each}}
+    </ul>
 </template>
 
 <template name="Stat">
