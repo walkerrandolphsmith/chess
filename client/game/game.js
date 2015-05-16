@@ -38,15 +38,33 @@ Template.Square.events({
                 return;
             game.fromSquare = square;
         }else{
-          var fromPiece = game.fromSquare.piece;
+            var fromPiece = game.fromSquare.piece;
+            var p = square.piece;
+
             //Determine which squares are valid selections
             //based on the fromPiece, previously selected.
+            var indicies = getValidMoves(game.fromSquare);
+
             //Return if there is an invalid selection.
+            if(!canSelectToSquare(p, game))
+                return;
+            //TODO: check to see if there are check conditions with King
+
+            //Return if the selection is an
+            //invalid movement of the from piece
+            if(-1 === _.find(indicies, function(index){
+                return p.index = index;
+            }))
+                return;
 
             //Once the selection has been made
             //Remove the piece from the square it previously resided on
+            Squares.update({index: game.fromSquare.index}, {piece: {}});
             //Replace the selected square's piece with the fromPiece
+            square.piece = fromPiece;
             //Set game's fromSquare selected and piece properties to null
+            game.fromSquare = {};
+            //Rotate turn to opponent
             game.currentPlayer = _.find(game.players, function(player){
                 return game.currentPlayer != player;
             });
@@ -58,6 +76,38 @@ Template.Square.events({
 function canSelectFromSquare(p, g){
     return (p.id.indexOf('w') === 0 && g.currentPlayer === g.players[0])
     || (p.id.indexOf('b') === 0 && g.currentPlayer !== g.players[0])
+}
+
+function canSelectToSquare(p, g){
+    return !p
+        || (p.id.indexOf('w') === 0 && g.currentPlayer !== g.players[0])
+        || (p.id.indexOf('b') === 0 && g.currentPlayer === g.players[0])
+}
+
+function getValidMoves(square){
+    var moves = [];
+    var p = square.piece;
+
+    switch(p.id.charAt(1)){
+        case 'r':
+            break;
+        case 'k':
+            break;
+        case 'b':
+            break;
+        case 'q':
+            break;
+        case 'x':
+            break;
+        case 'p':
+            if(p.id.charAt(0)=== 'w'){
+
+            }else{
+
+            }
+            break;
+    }
+    return moves;
 }
 
 Meteor.startup(function () {
