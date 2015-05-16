@@ -1,41 +1,40 @@
-#board
-{
+#board {
     display: flex;
     flex-flow: row wrap;
     margin: 0px auto;
     width: 336px;
     height: 336px;
-}
 
-.square {
-    width: 42px;
-    height: 42px;
-    color: white;
-    font-size: 30px;
-    text-align: center;
-    box-sizing: border-box;
+    .square {
+        width: 42px;
+        height: 42px;
+        color: white;
+        font-size: 30px;
+        text-align: center;
+        box-sizing: border-box;
 
-    &:hover {
-        border: inset 1px rgba(255,255,255,1);
-    }
+        &:hover {
+            border: inset 1px rgba(255, 255, 255, 1);
+        }
 
-    &:nth-child(even) {
+        &:nth-child(even) {
 
-    }
+        }
 
-    &:nth-child(odd) {
+        &:nth-child(odd) {
 
-    }
+        }
 
-    &:nth-child(8n) {
+        &:nth-child(8n) {
 
-    }
+        }
 
-    &.dark {
-        background: #64494D;
-    }
+        &.dark {
+            background: #64494D;
+        }
 
-    &.light {
-        background: #C8B08F;
+        &.light {
+            background: #C8B08F;
+        }
     }
 }
