@@ -15,17 +15,15 @@ Template.Square.events({
         var square = Template.currentData();
         var game = Template.parentData();
         var userId = Meteor.userId();
-        var tm = TurnManager(game);
 
         console.log("USER ID: ", userId);
         console.log("GAME ID: ", game._id);
         console.log("GAME: ", game);
         console.log("SQUARE: ", square);
-        console.log("TURN MANAGER: ", TurnManager(game));
         debugger;
 
         //If its not your turn return
-        if(tm.getTurn() != userId)
+        if(game.currentPlayer != userId)
             return;
         //If your first tile selection has not been made
         if(!game.fromSquare){
@@ -36,7 +34,7 @@ Template.Square.events({
                 return;
             //If you select a tile occupied by your opponents piece
             //on your first selection return
-            if(!canSelectFromSquare(p, tm))
+            if(!canSelectFromSquare(p, game))
                 return;
             game.fromSquare = square;
         }else{
@@ -49,47 +47,20 @@ Template.Square.events({
             //Remove the piece from the square it previously resided on
             //Replace the selected square's piece with the fromPiece
             //Set game's fromSquare selected and piece properties to null
+            game.currentPlayer = _.find(game.players, function(player){
+                return game.currentPlayer != player;
+            });
         }
         //Games.update(game._id, {$push: {clicks: square.position}})
     }
 });
 
-function canSelectFromSquare(piece, turnManager){
-    return (piece.id.indexOf('w') == 0 && turnManager.isWhiteTurn())
-    || (piece.id.indexOf('b') == 0 && !turnManager.isWhiteTurn())
-}
-
-function TurnManager(game){
-
-    var turn = game.currentPlayer;
-
-    function getTurn(){
-        return turn
-    }
-
-    function setTurn(){
-        turn = _.find(game.players, function(player){
-            return turn != player;
-        });
-    }
-
-    function isWhiteTurn(){
-        var index = -1;
-        _.find(game.players, function(player, i){
-            if(turn === player){ index = i; return true;};
-        });
-        return (0 === index);
-    }
-
-    return {
-        getTurn: getTurn,
-        setTurn: setTurn,
-        isWhiteTurn: isWhiteTurn
-    }
+function canSelectFromSquare(p, g){
+    return (p.id.indexOf('w') === 0 && g.currentPlayer === g.players[0])
+    || (p.id.indexOf('b') === 0 && g.currentPlayer !== g.players[0])
 }
 
 Meteor.startup(function () {
-    //var userId = Meteor.userId();
 
     if(Squares.find().count() === 0) {
         for(var i = 0; i < 64; i++){
@@ -113,7 +84,7 @@ Meteor.startup(function () {
         if(!Games.findOne({players: userId})){
             Games.insert({
                 clicks: [],
-                fromSquare: null,
+                fromSquare: {},
                 players: [userId],
                 currentPlayer: userId
 
