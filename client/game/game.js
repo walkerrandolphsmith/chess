@@ -53,21 +53,24 @@ Template.Square.events({
             //Return if the selection is an
             //invalid movement of the from piece
             if(-1 === _.find(indicies, function(index){
-                return p.index = index;
+                return square.index = index;
             }))
                 return;
 
             //Once the selection has been made
             //Remove the piece from the square it previously resided on
-            Squares.update({index: game.fromSquare.index}, {piece: {}});
+            Squares.update({index: game.fromSquare.index}, {piece: null});
             //Replace the selected square's piece with the fromPiece
             square.piece = fromPiece;
+            //Squares.update(square._id, {piece: fromPiece});
             //Set game's fromSquare selected and piece properties to null
-            game.fromSquare = {};
+            game.fromSquare = null;
             //Rotate turn to opponent
             game.currentPlayer = _.find(game.players, function(player){
                 return game.currentPlayer != player;
             });
+            //Games.update(game._id, {fromSquare: game.fromSquare, currentPlayer: game.currentPlayer});
+
         }
         //Games.update(game._id, {$push: {clicks: square.position}})
     }
@@ -101,7 +104,7 @@ function getValidMoves(square){
             break;
         case 'p':
             if(p.id.charAt(0)=== 'w'){
-
+                moves.push(square.index -8);
             }else{
 
             }
@@ -134,7 +137,7 @@ Meteor.startup(function () {
         if(!Games.findOne({players: userId})){
             Games.insert({
                 clicks: [],
-                fromSquare: {},
+                fromSquare: null,
                 players: [userId],
                 currentPlayer: userId
 
