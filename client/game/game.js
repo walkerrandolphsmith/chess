@@ -6,28 +6,25 @@ Template.Game.helpers({
 
 Template.Board.helpers({
     squares: function(){
-        return Squares.find()
+        return Games.findOne({players: Meteor.userId()}).squares; //Squares.find();
     }
 });
 
 Template.Square.events({
     "click": function(){
-        var square = Template.currentData();
-        var game = Template.parentData();
         var userId = Meteor.userId();
+        var game = Template.parentData();
+        var square = Template.currentData();
+        var p = square.piece;
 
         console.log("USER ID: ", userId);
-        console.log("GAME ID: ", game._id);
         console.log("GAME: ", game);
-        console.log("SQUARE: ", square);
-        debugger;
 
         //If its not your turn return
         if(game.currentPlayer != userId)
             return;
         //If your first tile selection has not been made
         if(!game.fromSquare){
-            var p = square.piece;
             //If you select an empty tile
             //on your first selection return
             if(!p)
@@ -36,11 +33,9 @@ Template.Square.events({
             //on your first selection return
             if(!canSelectFromSquare(p, game))
                 return;
-            game.fromSquare = square;
+            Games.update(game._id, {$set: {fromSquare: square}});
         }else{
             var fromPiece = game.fromSquare.piece;
-            var p = square.piece;
-
             //Determine which squares are valid selections
             //based on the fromPiece, previously selected.
             var indicies = getValidMoves(game.fromSquare);
@@ -58,21 +53,18 @@ Template.Square.events({
                 return;
 
             //Once the selection has been made
+            //
             //Remove the piece from the square it previously resided on
-            Squares.update({index: game.fromSquare.index}, {piece: null});
+            game.squares[game.fromSquare.index].piece = null;
             //Replace the selected square's piece with the fromPiece
-            square.piece = fromPiece;
-            //Squares.update(square._id, {piece: fromPiece});
-            //Set game's fromSquare selected and piece properties to null
-            game.fromSquare = null;
-            //Rotate turn to opponent
-            game.currentPlayer = _.find(game.players, function(player){
+            game.squares[square.index].piece = fromPiece;
+            //Determine which player's turn it will be next
+            var newCurrentPlayer = _.find(game.players, function(player){
                 return game.currentPlayer != player;
             });
-            //Games.update(game._id, {fromSquare: game.fromSquare, currentPlayer: game.currentPlayer});
-
+            //Set game's fromSquare to null and rotate turn to opponent and update squares
+            Games.update(game._id, {$set: {fromSquare: null, currentPlayer: newCurrentPlayer, squares: game.squares}});
         }
-        //Games.update(game._id, {$push: {clicks: square.position}})
     }
 });
 
@@ -114,29 +106,27 @@ function getValidMoves(square){
 }
 
 Meteor.startup(function () {
-
-    if(Squares.find().count() === 0) {
-        for(var i = 0; i < 64; i++){
-            var coordinates = getCoordinatesGivenIndex(i);
-            var r = coordinates.row;
-            var c = coordinates.column;
-
-            Squares.insert({
-                index: i,
-                coordinates: coordinates,
-                position: getPosition(r,c),
-                color: isDark(r, c) ? "dark" : "light",
-                piece: pieces[i]
-            });
-        }
-    }
-
     Accounts.onLogin(function(){
-        debugger;
+
         var userId = Meteor.userId();
         if(!Games.findOne({players: userId})){
+            var squares = [];
+            for(var i = 0; i < 64; i++){
+                var coordinates = getCoordinatesGivenIndex(i);
+                var r = coordinates.row;
+                var c = coordinates.column;
+
+                squares.push({
+                    index: i,
+                    coordinates: coordinates,
+                    position: getPosition(r,c),
+                    color: isDark(r, c) ? "dark" : "light",
+                    piece: pieces[i]
+                });
+            }
+
             Games.insert({
-                clicks: [],
+                squares: squares,
                 fromSquare: null,
                 players: [userId],
                 currentPlayer: userId
