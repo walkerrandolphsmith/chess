@@ -120,7 +120,7 @@ Meteor.startup(function () {
                     index: i,
                     coordinates: coordinates,
                     position: getPosition(r,c),
-                    color: isDark(r, c) ? "dark" : "light",
+                    color: (r % 2 != c % 2) ? "dark" : "light",
                     piece: pieces[i]
                 });
             }
@@ -139,10 +139,6 @@ Meteor.startup(function () {
 function getPosition(row, column){
     var letters = ['a','b','c','d','e','f','g','h'];
     return (8 - row) + letters[column];
-}
-
-function isDark(row, column){
-    return (row % 2 != column % 2) ? true : false;
 }
 
 function getIndexGivenCoordinates(row, column) {
