@@ -6,7 +6,7 @@ Template.Game.helpers({
 
 Template.Board.helpers({
     squares: function(){
-        return Games.findOne({players: Meteor.userId()}).squares; //Squares.find();
+        return Games.findOne({players: Meteor.userId()}).squares;
     }
 });
 
@@ -35,6 +35,12 @@ Template.Square.events({
                 return;
             Games.update(game._id, {$set: {fromSquare: square}});
         }else{
+            //If your toPiece belongs to you
+            //set your fromPiece to the selected square
+            if(p && canSelectFromSquare(p,game)) {
+                Games.update(game._id, {$set: {fromSquare: square}});
+                return;
+            }
             var fromPiece = game.fromSquare.piece;
             //Determine which squares are valid selections
             //based on the fromPiece, previously selected.
@@ -45,11 +51,12 @@ Template.Square.events({
                 return;
             //TODO: check to see if there are check conditions with King
 
-            //Return if the selection is an
-            //invalid movement of the from piece
-            if(-1 === _.find(indicies, function(index){
-                return square.index = index;
-            }))
+            //Determine if the index of the selected square is in the list of valid moves
+            var selectedIndexInValidMovesList = _.find(indicies, function(index){
+                return square.index === index;
+            });
+            //Return if the selection is an invalid movement of the from piece
+            if(!selectedIndexInValidMovesList)
                 return;
 
             //Once the selection has been made
@@ -96,9 +103,9 @@ function getValidMoves(square){
             break;
         case 'p':
             if(p.id.charAt(0)=== 'w'){
-                moves.push(square.index -8);
+                moves.push(square.index - 8);
             }else{
-
+                moves.push(square.index + 8);
             }
             break;
     }
@@ -107,7 +114,6 @@ function getValidMoves(square){
 
 Meteor.startup(function () {
     Accounts.onLogin(function(){
-
         var userId = Meteor.userId();
         if(!Games.findOne({players: userId})){
             var squares = [];
