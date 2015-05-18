@@ -24,7 +24,9 @@ Template.Square.events({
         if(game.currentPlayer != userId)
             return;
         //If your first tile selection has not been made
-        var fromSquare = getFromSquare(game.squares);
+        var fromSquare = _.find(game.squares, function(square){
+            return square.from
+        });
 
         if(!fromSquare){
             //If you select an empty tile
@@ -101,12 +103,6 @@ function canSelectToSquare(p, g){
     return !p
         || (p.id.indexOf('w') === 0 && g.currentPlayer !== g.players[0])
         || (p.id.indexOf('b') === 0 && g.currentPlayer === g.players[0])
-}
-
-function getFromSquare(squares){
-    return _.find(squares, function(square){
-        return square.from
-    });
 }
 
 function getValidMoves(square){
