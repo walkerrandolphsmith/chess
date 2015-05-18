@@ -56,7 +56,7 @@ Template.Square.events({
             var fromPiece = fromSquare.piece;
             //Determine which squares are valid selections
             //based on the fromPiece, previously selected.
-            var indicies = getValidMoves(fromSquare);
+            var indicies = getValidMoves(fromSquare, game.squares);
 
             //Return if there is an invalid selection.
             if(!canSelectToSquare(p, game))
@@ -105,9 +105,10 @@ function canSelectToSquare(p, g){
         || (p.id.indexOf('b') === 0 && g.currentPlayer === g.players[0])
 }
 
-function getValidMoves(square){
+function getValidMoves(square, squares){
     var moves = [];
     var p = square.piece;
+    var owner = p.id.charAt(0);
 
     switch(p.id.charAt(1)){
         case 'r':
@@ -121,10 +122,36 @@ function getValidMoves(square){
         case 'x':
             break;
         case 'p':
-            if(p.id.charAt(0)=== 'w'){
-                moves.push(square.index - 8);
-            }else{
-                moves.push(square.index + 8);
+            var westIndex = square.index + 7;
+            var index = square.index + 8;
+            var double = square.index + 16;
+            var eastIndex = square.index + 9;
+            var intialPositions = [8,9,10,11,12,13,14,15];
+
+            if(owner === 'w'){
+                westIndex = square.index - 9;
+                index = square.index -8;
+                double = square.index -16;
+                eastIndex = square.index + -7;
+                intialPositions = [48,49,50,51,52,53,54,55];
+            }
+
+            var westPiece = squares[westIndex].piece;
+            var eastPiece = squares[eastIndex].piece;
+
+            var hasWestPiece = (westPiece && westPiece.id.charAt('0') !== owner);
+            var hasEastPiece = (eastPiece && eastPiece.id.charAt('0') !== owner);
+
+            if(hasWestPiece){
+                moves.push(westIndex)
+            }
+            if(hasEastPiece){
+                moves.push(eastIndex)
+            }
+            else {
+                if(_.contains(intialPositions, square.index))
+                    moves.push(double);
+                moves.push(index);
             }
             break;
     }
