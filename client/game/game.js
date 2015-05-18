@@ -24,7 +24,9 @@ Template.Square.events({
         if(game.currentPlayer != userId)
             return;
         //If your first tile selection has not been made
-        if(!game.fromSquare){
+        var fromSquare = getFromSquare(game.squares);
+
+        if(!fromSquare){
             //If you select an empty tile
             //on your first selection return
             if(!p)
@@ -33,22 +35,31 @@ Template.Square.events({
             //on your first selection return
             if(!canSelectFromSquare(p, game))
                 return;
-            Games.update(game._id, {$set: {fromSquare: square}});
+            //Set the selected piece to the from piece
+            game.squares[square.index].from = "selected";
+            Games.update(game._id, {$set: {squares: game.squares}});
         }else{
-            //If your toPiece belongs to you
-            //set your fromPiece to the selected square
+            //If the selected toPiece belongs to you
             if(p && canSelectFromSquare(p,game)) {
-                Games.update(game._id, {$set: {fromSquare: square}});
+                //Reset previous from square
+                _.each(game.squares, function(square){
+                   square.from = "";
+                });
+                //set your fromPiece to the selected square
+                game.squares[square.index].from = "selected";
+                //Update squares and return early
+                Games.update(game._id, {$set: {squares: game.squares}});
                 return;
             }
-            var fromPiece = game.fromSquare.piece;
+            var fromPiece = fromSquare.piece;
             //Determine which squares are valid selections
             //based on the fromPiece, previously selected.
-            var indicies = getValidMoves(game.fromSquare);
+            var indicies = getValidMoves(fromSquare);
 
             //Return if there is an invalid selection.
             if(!canSelectToSquare(p, game))
                 return;
+
             //TODO: check to see if there are check conditions with King
 
             //Determine if the index of the selected square is in the list of valid moves
@@ -59,18 +70,24 @@ Template.Square.events({
             if(!selectedIndexInValidMovesList)
                 return;
 
-            //Once the selection has been made
-            //
+            /*
+                Once the selection has been made
+            */
+
             //Remove the piece from the square it previously resided on
-            game.squares[game.fromSquare.index].piece = null;
+            game.squares[fromSquare.index].piece = null;
             //Replace the selected square's piece with the fromPiece
             game.squares[square.index].piece = fromPiece;
+            //Set from square to false
+            _.each(game.squares, function(square){
+                square.from = "";
+            });
             //Determine which player's turn it will be next
             var newCurrentPlayer = _.find(game.players, function(player){
                 return game.currentPlayer != player;
             });
-            //Set game's fromSquare to null and rotate turn to opponent and update squares
-            Games.update(game._id, {$set: {fromSquare: null, currentPlayer: newCurrentPlayer, squares: game.squares}});
+            //rotate turn to opponent and update squares
+            Games.update(game._id, {$set: {currentPlayer: newCurrentPlayer, squares: game.squares}});
         }
     }
 });
@@ -84,6 +101,12 @@ function canSelectToSquare(p, g){
     return !p
         || (p.id.indexOf('w') === 0 && g.currentPlayer !== g.players[0])
         || (p.id.indexOf('b') === 0 && g.currentPlayer === g.players[0])
+}
+
+function getFromSquare(squares){
+    return _.find(squares, function(square){
+        return square.from
+    });
 }
 
 function getValidMoves(square){
@@ -127,16 +150,15 @@ Meteor.startup(function () {
                     coordinates: coordinates,
                     position: getPosition(r,c),
                     color: (r % 2 != c % 2) ? "dark" : "light",
-                    piece: pieces[i]
+                    piece: pieces[i],
+                    from: ""
                 });
             }
 
             Games.insert({
                 squares: squares,
-                fromSquare: null,
                 players: [userId],
                 currentPlayer: userId
-
             });
         }
     });
