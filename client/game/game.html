@@ -11,7 +11,11 @@
         {{> Square}}
       {{/each}}
     </div>
-    {{> Reset}}
+    <aside>
+        <h1>{{_id}}</h1>
+        <p>{{currentPlayer}}</p>
+        {{> Reset}}
+    </aside>
 </template>
 
 <template name="Square">
