@@ -11,9 +11,13 @@
         {{> Square}}
       {{/each}}
     </div>
+    {{> Reset}}
 </template>
 
 <template name="Square">
     <div id="{{position}}" class="square {{color}} {{from}}">{{{piece.code}}}</div>
+</template>
 
+<template name="Reset">
+    <button>Reset</button>
 </template>

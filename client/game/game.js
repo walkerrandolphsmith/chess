@@ -10,6 +10,13 @@ Template.Board.helpers({
     }
 });
 
+Template.Reset.events({
+    "click": function(){
+        var game = Template.currentData();
+        Games.update(game._id, {$set: {squares: generateSquares(), currentPlayer: game.players[0]}});
+    }
+});
+
 Template.Square.events({
     "click": function(){
         var userId = Meteor.userId();
@@ -166,30 +173,70 @@ Meteor.startup(function () {
     Accounts.onLogin(function(){
         var userId = Meteor.userId();
         if(!Games.findOne({players: userId})){
-            var squares = [];
-            for(var i = 0; i < 64; i++){
-                var coordinates = getCoordinatesGivenIndex(i);
-                var r = coordinates.row;
-                var c = coordinates.column;
-
-                squares.push({
-                    index: i,
-                    coordinates: coordinates,
-                    position: getPosition(r,c),
-                    color: (r % 2 != c % 2) ? "dark" : "light",
-                    piece: pieces[i],
-                    from: ""
-                });
-            }
 
             Games.insert({
-                squares: squares,
+                squares: generateSquares(),
                 players: [userId],
                 currentPlayer: userId
             });
         }
     });
 });
+
+function generateSquares() {
+    var squares = [];
+    var pieces = {
+        0:  {id: 'br', code: "&#9820;"},
+        1:  {id: 'bk', code: "&#9822;"},
+        2:  {id: 'bb', code: "&#9821;"},
+        3:  {id: 'bq', code: "&#9818;"},
+        4:  {id: 'bx', code: "&#9819;"},
+        5:  {id: 'bb', code: "&#9821;"},
+        6:  {id: 'bk', code: "&#9822;"},
+        7:  {id: 'br', code: "&#9820;"},
+        8:  {id: 'bp', code: "&#9823;"},
+        9:  {id: 'bp', code: "&#9823;"},
+        10: {id: 'bp', code: "&#9823;"},
+        11: {id: 'bp', code: "&#9823;"},
+        12: {id: 'bp', code: "&#9823;"},
+        13: {id: 'bp', code: "&#9823;"},
+        14: {id: 'bp', code: "&#9823;"},
+        15: {id: 'bp', code: "&#9823;"},
+
+        48: {id: 'wp', code: "&#9817;"},
+        49: {id: 'wp', code: "&#9817;"},
+        50: {id: 'wp', code: "&#9817;"},
+        51: {id: 'wp', code: "&#9817;"},
+        52: {id: 'wp', code: "&#9817;"},
+        53: {id: 'wp', code: "&#9817;"},
+        54: {id: 'wp', code: "&#9817;"},
+        55: {id: 'wp', code: "&#9817;"},
+        56: {id: 'wr', code: "&#9814;"},
+        57: {id: 'wk', code: "&#9816;"},
+        58: {id: 'wb', code: "&#9815;"},
+        59: {id: 'wq', code: "&#9813;"},
+        60: {id: 'wx', code: "&#9812;"},
+        61: {id: 'wb', code: "&#9815;"},
+        62: {id: 'wk', code: "&#9816;"},
+        63: {id: 'wr', code: "&#9814;"}
+    };
+
+    for (var i = 0; i < 64; i++) {
+        var coordinates = getCoordinatesGivenIndex(i);
+        var r = coordinates.row;
+        var c = coordinates.column;
+
+        squares.push({
+            index: i,
+            coordinates: coordinates,
+            position: getPosition(r, c),
+            color: (r % 2 != c % 2) ? "dark" : "light",
+            piece: pieces[i],
+            from: ""
+        });
+    }
+    return squares;
+}
 
 function getPosition(row, column){
     var letters = ['a','b','c','d','e','f','g','h'];
@@ -206,39 +253,3 @@ function getCoordinatesGivenIndex(index) {
         row: Math.floor(index / 8)
     };
 }
-
-var pieces = {
-    0:  {id: 'br', code: "&#9820;"},
-    1:  {id: 'bk', code: "&#9822;"},
-    2:  {id: 'bb', code: "&#9821;"},
-    3:  {id: 'bq', code: "&#9818;"},
-    4:  {id: 'bx', code: "&#9819;"},
-    5:  {id: 'bb', code: "&#9821;"},
-    6:  {id: 'bk', code: "&#9822;"},
-    7:  {id: 'br', code: "&#9820;"},
-    8:  {id: 'bp', code: "&#9823;"},
-    9:  {id: 'bp', code: "&#9823;"},
-    10: {id: 'bp', code: "&#9823;"},
-    11: {id: 'bp', code: "&#9823;"},
-    12: {id: 'bp', code: "&#9823;"},
-    13: {id: 'bp', code: "&#9823;"},
-    14: {id: 'bp', code: "&#9823;"},
-    15: {id: 'bp', code: "&#9823;"},
-
-    48: {id: 'wp', code: "&#9817;"},
-    49: {id: 'wp', code: "&#9817;"},
-    50: {id: 'wp', code: "&#9817;"},
-    51: {id: 'wp', code: "&#9817;"},
-    52: {id: 'wp', code: "&#9817;"},
-    53: {id: 'wp', code: "&#9817;"},
-    54: {id: 'wp', code: "&#9817;"},
-    55: {id: 'wp', code: "&#9817;"},
-    56: {id: 'wr', code: "&#9814;"},
-    57: {id: 'wk', code: "&#9816;"},
-    58: {id: 'wb', code: "&#9815;"},
-    59: {id: 'wq', code: "&#9813;"},
-    60: {id: 'wx', code: "&#9812;"},
-    61: {id: 'wb', code: "&#9815;"},
-    62: {id: 'wk', code: "&#9816;"},
-    63: {id: 'wr', code: "&#9814;"}
-};
