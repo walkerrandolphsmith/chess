@@ -132,15 +132,15 @@ function getValidMoves(square, squares){
                 westIndex = square.index - 9;
                 index = square.index -8;
                 double = square.index -16;
-                eastIndex = square.index + -7;
+                eastIndex = square.index -7;
                 intialPositions = [48,49,50,51,52,53,54,55];
             }
 
             var westPiece = squares[westIndex].piece;
             var eastPiece = squares[eastIndex].piece;
 
-            var hasWestPiece = (westPiece && westPiece.id.charAt('0') !== owner);
-            var hasEastPiece = (eastPiece && eastPiece.id.charAt('0') !== owner);
+            var hasWestPiece = (westPiece && isOpponent(p, westPiece));
+            var hasEastPiece = (eastPiece && isOpponent(p, eastPiece));
 
             if(hasWestPiece){
                 moves.push(westIndex)
@@ -156,6 +156,10 @@ function getValidMoves(square, squares){
             break;
     }
     return moves;
+}
+
+function isOpponent(from, to){
+    return from.id.charAt('0') != to.id.charAt('0');
 }
 
 Meteor.startup(function () {
