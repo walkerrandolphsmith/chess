@@ -133,32 +133,27 @@ function getValidMoves(square, squares){
             var index = square.index + 8;
             var double = square.index + 16;
             var eastIndex = square.index + 9;
-            var intialPositions = [8,9,10,11,12,13,14,15];
+            var initialPositions = [8,9,10,11,12,13,14,15];
 
             if(owner === 'w'){
                 westIndex = square.index - 9;
                 index = square.index -8;
                 double = square.index -16;
                 eastIndex = square.index -7;
-                intialPositions = [48,49,50,51,52,53,54,55];
+                initialPositions = [48,49,50,51,52,53,54,55];
             }
 
             var westPiece = squares[westIndex].piece;
             var eastPiece = squares[eastIndex].piece;
 
-            var hasWestPiece = (westPiece && isOpponent(p, westPiece));
-            var hasEastPiece = (eastPiece && isOpponent(p, eastPiece));
-
-            if(hasWestPiece){
-                moves.push(westIndex)
-            }
-            if(hasEastPiece){
-                moves.push(eastIndex)
-            }
-            else {
-                if(_.contains(intialPositions, square.index))
-                    moves.push(double);
+            if(westPiece && isOpponent(p, westPiece))
+                moves.push(westIndex);
+            if(eastPiece && isOpponent(p, eastPiece))
+                moves.push(eastIndex);
+            if(!squares[index].piece) {
                 moves.push(index);
+                if (!squares[double].piece && _.contains(initialPositions, square.index))
+                    moves.push(double);
             }
             break;
     }
