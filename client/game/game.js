@@ -269,6 +269,27 @@ function getPawnMoves(square, squares){
     return moves;
 }
 
+function getKnightMoves(square, squares){
+    var moves = [];
+    var p = square.piece,
+        i = square.index;
+
+    var directions = [i-17, i-15, i+15, i+17, i-10, i-6, i+6, i+10];
+
+    directions.forEach(function(index){
+        if(squares[index]){
+            var nextPiece = squares[index].piece;
+            if(nextPiece){
+                if(isOpponent(p, nextPiece))
+                    moves.push(index)
+            }else{
+                moves.push(index);
+            }
+        }
+    });
+    return moves;
+}
+
 
 
 function getValidMoves(square, squares){
@@ -282,6 +303,7 @@ function getValidMoves(square, squares){
             moves = _.union(moves, getRookMoves(square, squares));
             break;
         case 'k':
+            moves = _.union(moves, getKnightMoves(square, squares));
             break;
         case 'b':
             moves = _.union(moves, getBishopMoves(square, squares));
