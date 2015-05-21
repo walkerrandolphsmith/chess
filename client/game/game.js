@@ -287,6 +287,8 @@ function getValidMoves(square, squares){
             moves = _.union(moves, getBishopMoves(square, squares));
             break;
         case 'q':
+            var queenMoves = _.union(getRookMoves(square, squares), getBishopMoves(square, squares));
+            moves = _.union(moves, queenMoves);
             break;
         case 'x':
             break;
@@ -322,8 +324,8 @@ function generateSquares() {
         0:  {id: 'br', code: "&#9820;"},
         1:  {id: 'bk', code: "&#9822;"},
         2:  {id: 'bb', code: "&#9821;"},
-        3:  {id: 'bq', code: "&#9818;"},
-        4:  {id: 'bx', code: "&#9819;"},
+        3:  {id: 'bq', code: "&#9819;"},
+        4:  {id: 'bx', code: "&#9818;"},
         5:  {id: 'bb', code: "&#9821;"},
         6:  {id: 'bk', code: "&#9822;"},
         7:  {id: 'br', code: "&#9820;"},
