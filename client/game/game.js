@@ -170,6 +170,72 @@ function getRookMoves(square, squares){
     return moves;
 }
 
+function getBishopMoves(square, squares){
+    var moves = [];
+    var p = square.piece,
+        r = square.coordinates.row,
+        c = square.coordinates.column;
+
+    var rr,cc;
+    //NorthWest
+    var nextIndex = square.index;
+    for(rr = r, cc = c; rr > 0 && cc > 0; rr--, cc--){
+        nextIndex -= 9;
+        if(squares[nextIndex].piece){
+            if(isOpponent(p, squares[nextIndex].piece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+    //NorthEast
+    nextIndex = square.index,
+        rr = r,
+        cc = c;
+    for(rr = r, cc = c; rr > 0 && cc < 7; rr--, cc++){
+        nextIndex -= 7;
+        if(squares[nextIndex].piece){
+            if(isOpponent(p, squares[nextIndex].piece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+
+    //Southwest
+    nextIndex = square.index,
+        rr = r,
+        cc = c;
+    for(rr = r, cc = c; rr < 7 && cc > 0; rr++, cc--){
+        nextIndex += 7;
+        if(squares[nextIndex].piece){
+            if(isOpponent(p, squares[nextIndex].piece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+
+    //Southeast
+    nextIndex = square.index,
+        rr = r,
+        cc = c;
+    for(rr = r, cc = c; rr < 7 && cc < 7; rr++, cc++){
+        nextIndex += 9;
+        if(squares[nextIndex].piece){
+            if(isOpponent(p, squares[nextIndex].piece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+    return moves;
+}
+
 function getPawnMoves(square, squares){
     var p = square.piece;
     var moves = [];
@@ -218,6 +284,7 @@ function getValidMoves(square, squares){
         case 'k':
             break;
         case 'b':
+            moves = _.union(moves, getBishopMoves(square, squares));
             break;
         case 'q':
             break;
