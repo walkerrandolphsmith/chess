@@ -114,11 +114,66 @@ function canSelectToSquare(p, g){
 
 function getValidMoves(square, squares){
     var moves = [];
+    //square is the from square
     var p = square.piece;
     var owner = p.id.charAt(0);
 
     switch(p.id.charAt(1)){
         case 'r':
+            var r = square.coordinates.row;
+            var c = square.coordinates.column;
+
+            //From first row to the current row
+            var nextIndex = square.index;
+            for(var i = r; i > 0 ; i--){
+                nextIndex -= 8;
+                var nextPiece = squares[nextIndex].piece;
+                if(nextPiece){
+                    if(isOpponent(p, nextPiece))
+                        moves.push(nextIndex);
+                    break;
+                }else{
+                    moves.push(nextIndex);
+                }
+            }
+            console.log(moves);
+            //From current row to last row
+            nextIndex = square.index;
+            for(var j = r; j < 7; j++){
+                nextIndex += 8;
+                if(squares[nextIndex].piece){
+                    if(isOpponent(p, squares[nextIndex].piece))
+                        moves.push(nextIndex);
+                    break;
+                }else{
+                    moves.push(nextIndex);
+                }
+            }
+
+            nextIndex = square.index;
+            for(var k = c; k > 0; k--){
+                nextIndex -= 1;
+                if(squares[nextIndex].piece){
+                    if(isOpponent(p, squares[nextIndex].piece))
+                        moves.push(nextIndex);
+                    break;
+                }else{
+                    moves.push(nextIndex);
+                }
+            }
+
+            nextIndex = square.index;
+            for(var l = c; l < 7; l++){
+                nextIndex += 1;
+                if(squares[nextIndex].piece){
+                    if(isOpponent(p, squares[nextIndex].piece))
+                        moves.push(nextIndex);
+                    break;
+                }else{
+                    moves.push(nextIndex);
+                }
+            }
+
             break;
         case 'k':
             break;
@@ -137,9 +192,9 @@ function getValidMoves(square, squares){
 
             if(owner === 'w'){
                 westIndex = square.index - 9;
-                index = square.index -8;
-                double = square.index -16;
-                eastIndex = square.index -7;
+                index = square.index - 8;
+                double = square.index - 16;
+                eastIndex = square.index - 7;
                 initialPositions = [48,49,50,51,52,53,54,55];
             }
 
@@ -157,6 +212,7 @@ function getValidMoves(square, squares){
             }
             break;
     }
+    console.log(moves);
     return moves;
 }
 
