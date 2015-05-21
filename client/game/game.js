@@ -270,27 +270,42 @@ function getPawnMoves(square, squares){
 }
 
 function getKnightMoves(square, squares){
-    var moves = [];
-    var p = square.piece,
+    var moves = [],
         i = square.index;
 
     var directions = [i-17, i-15, i+15, i+17, i-10, i-6, i+6, i+10];
-
     directions.forEach(function(index){
-        if(squares[index]){
-            var nextPiece = squares[index].piece;
-            if(nextPiece){
-                if(isOpponent(p, nextPiece))
-                    moves.push(index)
-            }else{
-                moves.push(index);
-            }
-        }
+        if(getPieceMoves(index, square, squares))
+            moves.push(index)
     });
     return moves;
 }
 
+function getKingMoves(square, squares){
+    var moves = [],
+        i = square.index;
 
+    var directions = [i-9, i-8, i-7, i-1, i+1, i+9, i+8, i+7];
+    directions.forEach(function(index){
+        if(getPieceMoves(index, square, squares))
+            moves.push(index)
+    });
+    return moves;
+}
+
+function getPieceMoves(i, square, squares){
+    var move = false;
+    if(squares[i]){
+        var nextPiece = squares[i].piece;
+        if(nextPiece){
+            if(isOpponent(square.piece, nextPiece))
+                move = true;
+        }else{
+            move = true;
+        }
+    }
+    return move;
+}
 
 function getValidMoves(square, squares){
     var moves = [];
@@ -313,6 +328,7 @@ function getValidMoves(square, squares){
             moves = _.union(moves, queenMoves);
             break;
         case 'x':
+            moves = _.union(getKingMoves(square, squares));
             break;
         case 'p':
             moves = _.union(moves, getPawnMoves(square, squares));
