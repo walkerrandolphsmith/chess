@@ -254,16 +254,13 @@ function getPawnMoves(square, squares){
         initialPositions = [48,49,50,51,52,53,54,55];
     }
 
-    var westPiece = squares[westIndex].piece;
-    var eastPiece = squares[eastIndex].piece;
-
-    if(westPiece && isOpponent(p, westPiece))
+    if(getPieceMoves(westIndex, square, squares))
         moves.push(westIndex);
-    if(eastPiece && isOpponent(p, eastPiece))
+    if(getPieceMoves(eastIndex, square, squares))
         moves.push(eastIndex);
-    if(!squares[index].piece) {
+    if(squares[index] && !squares[index].piece) {
         moves.push(index);
-        if (!squares[double].piece && _.contains(initialPositions, square.index))
+        if (squares[double] && !squares[double].piece && _.contains(initialPositions, square.index))
             moves.push(double);
     }
     return moves;
