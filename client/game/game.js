@@ -112,6 +112,99 @@ function canSelectToSquare(p, g){
         || (p.id.indexOf('b') === 0 && g.currentPlayer === g.players[0])
 }
 
+function getRookMoves(square, squares){
+    var moves = [];
+    var p = square.piece;
+    var r = square.coordinates.row;
+    var c = square.coordinates.column;
+
+    //From first row to the current row
+    var nextIndex = square.index;
+    for(var i = r; i > 0 ; i--){
+        nextIndex -= 8;
+        var nextPiece = squares[nextIndex].piece;
+        if(nextPiece){
+            if(isOpponent(p, nextPiece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+    //From current row to last row
+    nextIndex = square.index;
+    for(var j = r; j < 7; j++){
+        nextIndex += 8;
+        if(squares[nextIndex].piece){
+            if(isOpponent(p, squares[nextIndex].piece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+    //From current column to first column
+    nextIndex = square.index;
+    for(var k = c; k > 0; k--){
+        nextIndex -= 1;
+        if(squares[nextIndex].piece){
+            if(isOpponent(p, squares[nextIndex].piece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+    //From current column to last column
+    nextIndex = square.index;
+    for(var l = c; l < 7; l++){
+        nextIndex += 1;
+        if(squares[nextIndex].piece){
+            if(isOpponent(p, squares[nextIndex].piece))
+                moves.push(nextIndex);
+            break;
+        }else{
+            moves.push(nextIndex);
+        }
+    }
+    return moves;
+}
+
+function getPawnMoves(square, squares){
+    var p = square.piece;
+    var moves = [];
+
+    var westIndex = square.index + 7;
+    var index = square.index + 8;
+    var double = square.index + 16;
+    var eastIndex = square.index + 9;
+    var initialPositions = [8,9,10,11,12,13,14,15];
+
+    if(p.id.charAt(0) === 'w'){
+        westIndex = square.index - 9;
+        index = square.index - 8;
+        double = square.index - 16;
+        eastIndex = square.index - 7;
+        initialPositions = [48,49,50,51,52,53,54,55];
+    }
+
+    var westPiece = squares[westIndex].piece;
+    var eastPiece = squares[eastIndex].piece;
+
+    if(westPiece && isOpponent(p, westPiece))
+        moves.push(westIndex);
+    if(eastPiece && isOpponent(p, eastPiece))
+        moves.push(eastIndex);
+    if(!squares[index].piece) {
+        moves.push(index);
+        if (!squares[double].piece && _.contains(initialPositions, square.index))
+            moves.push(double);
+    }
+    return moves;
+}
+
+
+
 function getValidMoves(square, squares){
     var moves = [];
     //square is the from square
@@ -120,60 +213,7 @@ function getValidMoves(square, squares){
 
     switch(p.id.charAt(1)){
         case 'r':
-            var r = square.coordinates.row;
-            var c = square.coordinates.column;
-
-            //From first row to the current row
-            var nextIndex = square.index;
-            for(var i = r; i > 0 ; i--){
-                nextIndex -= 8;
-                var nextPiece = squares[nextIndex].piece;
-                if(nextPiece){
-                    if(isOpponent(p, nextPiece))
-                        moves.push(nextIndex);
-                    break;
-                }else{
-                    moves.push(nextIndex);
-                }
-            }
-            console.log(moves);
-            //From current row to last row
-            nextIndex = square.index;
-            for(var j = r; j < 7; j++){
-                nextIndex += 8;
-                if(squares[nextIndex].piece){
-                    if(isOpponent(p, squares[nextIndex].piece))
-                        moves.push(nextIndex);
-                    break;
-                }else{
-                    moves.push(nextIndex);
-                }
-            }
-
-            nextIndex = square.index;
-            for(var k = c; k > 0; k--){
-                nextIndex -= 1;
-                if(squares[nextIndex].piece){
-                    if(isOpponent(p, squares[nextIndex].piece))
-                        moves.push(nextIndex);
-                    break;
-                }else{
-                    moves.push(nextIndex);
-                }
-            }
-
-            nextIndex = square.index;
-            for(var l = c; l < 7; l++){
-                nextIndex += 1;
-                if(squares[nextIndex].piece){
-                    if(isOpponent(p, squares[nextIndex].piece))
-                        moves.push(nextIndex);
-                    break;
-                }else{
-                    moves.push(nextIndex);
-                }
-            }
-
+            moves = _.union(moves, getRookMoves(square, squares));
             break;
         case 'k':
             break;
@@ -184,32 +224,7 @@ function getValidMoves(square, squares){
         case 'x':
             break;
         case 'p':
-            var westIndex = square.index + 7;
-            var index = square.index + 8;
-            var double = square.index + 16;
-            var eastIndex = square.index + 9;
-            var initialPositions = [8,9,10,11,12,13,14,15];
-
-            if(owner === 'w'){
-                westIndex = square.index - 9;
-                index = square.index - 8;
-                double = square.index - 16;
-                eastIndex = square.index - 7;
-                initialPositions = [48,49,50,51,52,53,54,55];
-            }
-
-            var westPiece = squares[westIndex].piece;
-            var eastPiece = squares[eastIndex].piece;
-
-            if(westPiece && isOpponent(p, westPiece))
-                moves.push(westIndex);
-            if(eastPiece && isOpponent(p, eastPiece))
-                moves.push(eastIndex);
-            if(!squares[index].piece) {
-                moves.push(index);
-                if (!squares[double].piece && _.contains(initialPositions, square.index))
-                    moves.push(double);
-            }
+            moves = _.union(moves, getPawnMoves(square, squares));
             break;
     }
     console.log(moves);
