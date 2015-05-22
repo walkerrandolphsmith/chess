@@ -24,9 +24,6 @@ Template.Square.events({
         var square = Template.currentData();
         var p = square.piece;
 
-        console.log("USER ID: ", userId);
-        console.log("GAME: ", game);
-
         //If its not your turn return
         if(game.currentPlayer != userId)
             return;
@@ -76,7 +73,7 @@ Template.Square.events({
                 return square.index === index;
             });
             //Return if the selection is an invalid movement of the from piece
-            if(!selectedIndexInValidMovesList)
+            if(!selectedIndexInValidMovesList && selectedIndexInValidMovesList !== 0)
                 return;
 
             /*
@@ -114,58 +111,49 @@ function canSelectToSquare(p, g){
 
 function getRookMoves(square, squares){
     var moves = [];
-    var p = square.piece;
-    var r = square.coordinates.row;
-    var c = square.coordinates.column;
+    var p = square.piece,
+        r = square.coordinates.row,
+        c = square.coordinates.column;
 
     //From first row to the current row
     var nextIndex = square.index;
     for(var i = r; i > 0 ; i--){
         nextIndex -= 8;
-        var nextPiece = squares[nextIndex].piece;
-        if(nextPiece){
-            if(isOpponent(p, nextPiece))
-                moves.push(nextIndex);
-            break;
-        }else{
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
     //From current row to last row
     nextIndex = square.index;
-    for(var j = r; j < 7; j++){
+    for(var i = r; i < 7; i++){
         nextIndex += 8;
-        if(squares[nextIndex].piece){
-            if(isOpponent(p, squares[nextIndex].piece))
-                moves.push(nextIndex);
-            break;
-        }else{
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
     //From current column to first column
     nextIndex = square.index;
-    for(var k = c; k > 0; k--){
+    for(var i = c; i > 0; i--){
         nextIndex -= 1;
-        if(squares[nextIndex].piece){
-            if(isOpponent(p, squares[nextIndex].piece))
-                moves.push(nextIndex);
-            break;
-        }else{
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
     //From current column to last column
     nextIndex = square.index;
-    for(var l = c; l < 7; l++){
+    for(var i = c; i < 7; i++){
         nextIndex += 1;
-        if(squares[nextIndex].piece){
-            if(isOpponent(p, squares[nextIndex].piece))
-                moves.push(nextIndex);
-            break;
-        }else{
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
     return moves;
 }
@@ -174,64 +162,44 @@ function getBishopMoves(square, squares){
     var moves = [];
     var p = square.piece,
         r = square.coordinates.row,
-        c = square.coordinates.column;
+        c = square.coordinates.column,
+        nextIndex, rr, cc, i;
 
-    var rr,cc;
     //NorthWest
-    var nextIndex = square.index;
-    for(rr = r, cc = c; rr > 0 && cc > 0; rr--, cc--){
-        nextIndex -= 9;
-        if(squares[nextIndex].piece){
-            if(isOpponent(p, squares[nextIndex].piece))
-                moves.push(nextIndex);
-            break;
-        }else{
+    for(i = 1, rr = r, cc = c; rr > 0 && cc > 0; i++, rr--, cc--){
+        nextIndex = square.index - (i * 9);
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
     //NorthEast
-    nextIndex = square.index,
-        rr = r,
-        cc = c;
-    for(rr = r, cc = c; rr > 0 && cc < 7; rr--, cc++){
-        nextIndex -= 7;
-        if(squares[nextIndex].piece){
-            if(isOpponent(p, squares[nextIndex].piece))
-                moves.push(nextIndex);
-            break;
-        }else{
+    for(i = 1, rr = r, cc = c; rr > 0 && cc < 7; i++, rr--, cc++){
+        nextIndex = square.index - (i * 7);
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
-
     //Southwest
-    nextIndex = square.index,
-        rr = r,
-        cc = c;
-    for(rr = r, cc = c; rr < 7 && cc > 0; rr++, cc--){
-        nextIndex += 7;
-        if(squares[nextIndex].piece){
-            if(isOpponent(p, squares[nextIndex].piece))
-                moves.push(nextIndex);
-            break;
-        }else{
+    for(i = 1, rr = r, cc = c; rr < 7 && cc > 0; i++, rr++, cc--){
+        nextIndex = square.index + (i * 7);
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
-
     //Southeast
-    nextIndex = square.index,
-        rr = r,
-        cc = c;
-    for(rr = r, cc = c; rr < 7 && cc < 7; rr++, cc++){
-        nextIndex += 9;
-        if(squares[nextIndex].piece){
-            if(isOpponent(p, squares[nextIndex].piece))
-                moves.push(nextIndex);
-            break;
-        }else{
+    for(i = 1, rr = r, cc = c; rr < 7 && cc < 7; i++, rr++, cc++){
+        nextIndex = square.index + (i * 9);
+        var toSquare = getToSquare(nextIndex, square, squares);
+        if(toSquare.isValid)
             moves.push(nextIndex);
-        }
+        if(toSquare.hasPiece)
+            break;
     }
     return moves;
 }
@@ -254,9 +222,9 @@ function getPawnMoves(square, squares){
         initialPositions = [48,49,50,51,52,53,54,55];
     }
 
-    if(getPieceMoves(westIndex, square, squares))
+    if(getToSquare(westIndex, square, squares).isValid)
         moves.push(westIndex);
-    if(getPieceMoves(eastIndex, square, squares))
+    if(getToSquare(eastIndex, square, squares).isValid)
         moves.push(eastIndex);
     if(squares[index] && !squares[index].piece) {
         moves.push(index);
@@ -272,7 +240,7 @@ function getKnightMoves(square, squares){
 
     var directions = [i-17, i-15, i+15, i+17, i-10, i-6, i+6, i+10];
     directions.forEach(function(index){
-        if(getPieceMoves(index, square, squares))
+        if(getToSquare(index, square, squares).isValid)
             moves.push(index)
     });
     return moves;
@@ -284,24 +252,30 @@ function getKingMoves(square, squares){
 
     var directions = [i-9, i-8, i-7, i-1, i+1, i+9, i+8, i+7];
     directions.forEach(function(index){
-        if(getPieceMoves(index, square, squares))
+        if(getToSquare(index, square, squares).isValid)
             moves.push(index)
     });
     return moves;
 }
 
-function getPieceMoves(i, square, squares){
-    var move = false;
+function getToSquare(i, square, squares){
+    var isValidMove = false;
+    var hasPiece = false;
     if(squares[i]){
         var nextPiece = squares[i].piece;
         if(nextPiece){
             if(isOpponent(square.piece, nextPiece))
-                move = true;
+                isValidMove = true;
+            hasPiece = true;
         }else{
-            move = true;
+            isValidMove = true;
         }
     }
-    return move;
+    return {isValid: isValidMove, hasPiece: hasPiece};
+}
+
+function isOpponent(from, to){
+    return from.id.charAt('0') != to.id.charAt('0');
 }
 
 function getValidMoves(square, squares){
@@ -312,31 +286,25 @@ function getValidMoves(square, squares){
 
     switch(p.id.charAt(1)){
         case 'r':
-            moves = _.union(moves, getRookMoves(square, squares));
+            moves = getRookMoves(square, squares);
             break;
         case 'k':
-            moves = _.union(moves, getKnightMoves(square, squares));
+            moves = getKnightMoves(square, squares);
             break;
         case 'b':
-            moves = _.union(moves, getBishopMoves(square, squares));
+            moves = getBishopMoves(square, squares);
             break;
         case 'q':
-            var queenMoves = _.union(getRookMoves(square, squares), getBishopMoves(square, squares));
-            moves = _.union(moves, queenMoves);
+            moves = _.union(getRookMoves(square, squares), getBishopMoves(square, squares));
             break;
         case 'x':
-            moves = _.union(getKingMoves(square, squares));
+            moves = getKingMoves(square, squares);
             break;
         case 'p':
-            moves = _.union(moves, getPawnMoves(square, squares));
+            moves = getPawnMoves(square, squares);
             break;
     }
-    console.log(moves);
     return moves;
-}
-
-function isOpponent(from, to){
-    return from.id.charAt('0') != to.id.charAt('0');
 }
 
 Meteor.startup(function () {
