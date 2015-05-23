@@ -43,6 +43,16 @@ Template.Square.events({
                 return;
             //Set the selected piece to the from piece
             game.squares[square.index].from = "selected";
+
+            //Determine which squares are valid selections
+            var indicies = getValidMoves(square, game.squares);
+            _.each(game.squares, function(square){
+               square.isValid = "invalid";
+            });
+            _.each(indicies, function(index){
+               game.squares[index].isValid = "valid";
+            });
+
             Games.update(game._id, {$set: {squares: game.squares}});
         }else{
             //If the selected toPiece belongs to you
@@ -53,14 +63,30 @@ Template.Square.events({
                 });
                 //set your fromPiece to the selected square
                 game.squares[square.index].from = "selected";
+
+                //Determine which squares are valid selections
+                //based on the newly selected square
+                indicies = getValidMoves(square, game.squares);
+                _.each(game.squares, function(square){
+                    square.isValid = "invalid";
+                });
+                _.each(indicies, function(index){
+                    game.squares[index].isValid = "valid";
+                });
+
                 //Update squares and return early
                 Games.update(game._id, {$set: {squares: game.squares}});
                 return;
             }
             var fromPiece = fromSquare.piece;
-            //Determine which squares are valid selections
-            //based on the fromPiece, previously selected.
-            var indicies = getValidMoves(fromSquare, game.squares);
+
+            var validSquares = _.filter(game.squares, function(square){
+                return square.isValid === "valid";
+            });
+
+            indicies = _.map(validSquares, function(square){
+                return square.index;
+            });
 
             //Return if there is an invalid selection.
             if(!canSelectToSquare(p, game))
@@ -84,10 +110,12 @@ Template.Square.events({
             game.squares[fromSquare.index].piece = null;
             //Replace the selected square's piece with the fromPiece
             game.squares[square.index].piece = fromPiece;
-            //Set from square to false
+            //Set from square to false and movement to this square to invalid
             _.each(game.squares, function(square){
                 square.from = "";
+                square.isValid = "invalid"
             });
+
             //Determine which player's turn it will be next
             var newCurrentPlayer = _.find(game.players, function(player){
                 return game.currentPlayer != player;
@@ -222,9 +250,12 @@ function getPawnMoves(square, squares){
         initialPositions = [48,49,50,51,52,53,54,55];
     }
 
-    if(getToSquare(westIndex, square, squares).isValid)
+    var leftMostColumn = (square.coordinates.column === 0);
+    var rightMostColumn = (square.coordinates.column === 7);
+
+    if(!leftMostColumn && getToSquare(westIndex, square, squares).isValid)
         moves.push(westIndex);
-    if(getToSquare(eastIndex, square, squares).isValid)
+    if(!rightMostColumn && getToSquare(eastIndex, square, squares).isValid)
         moves.push(eastIndex);
     if(squares[index] && !squares[index].piece) {
         moves.push(index);
@@ -237,8 +268,27 @@ function getPawnMoves(square, squares){
 function getKnightMoves(square, squares){
     var moves = [],
         i = square.index;
+    var directions = [];
 
-    var directions = [i-17, i-15, i+15, i+17, i-10, i-6, i+6, i+10];
+    if(square.coordinates.column !== 0){
+        directions.push(i-17);
+        directions.push(i+15);
+
+    }
+    if(square.coordinates.column > 1){
+        directions.push(i-10);
+        directions.push(i+6);
+    }
+
+    if(square.coordinates.column !== 7){
+        directions.push(i-15);
+        directions.push(i+17);
+    }
+    if(square.coordinates.column < 6){
+        directions.push(i-6);
+        directions.push(i+10);
+    }
+
     directions.forEach(function(index){
         if(getToSquare(index, square, squares).isValid)
             moves.push(index)
@@ -370,7 +420,9 @@ function generateSquares() {
             position: getPosition(r, c),
             color: (r % 2 != c % 2) ? "dark" : "light",
             piece: pieces[i],
-            from: ""
+            from: "",
+            isValid: "invalid",
+            my: (i > 47)? true : false
         });
     }
     return squares;
