@@ -32,6 +32,8 @@ Template.Square.events({
             return square.from
         });
 
+
+
         if(!fromSquare){
             //If you select an empty tile
             //on your first selection return
@@ -114,6 +116,16 @@ Template.Square.events({
             _.each(game.squares, function(square){
                 square.from = "";
                 square.isValid = "invalid"
+
+                var isMyPiece = false;
+                if(square.piece) {
+                    isMyPiece = canSelectFromSquare(square.piece, game);
+                    //Set to the opposite value since the turn is about to be rotated.
+                    (isMyPiece) ? square.my = "their" : square.my = "my";
+                }
+                else {
+                    square.my = ""
+                }
             });
 
             //Determine which player's turn it will be next
@@ -253,9 +265,13 @@ function getPawnMoves(square, squares){
     var leftMostColumn = (square.coordinates.column === 0);
     var rightMostColumn = (square.coordinates.column === 7);
 
-    if(!leftMostColumn && getToSquare(westIndex, square, squares).isValid)
+    var toWestSquare = getToSquare(westIndex, square, squares);
+    var toEastSquare = getToSquare(eastIndex, square, squares);
+
+
+    if(!leftMostColumn && toWestSquare.isValid && toWestSquare.hasPiece)
         moves.push(westIndex);
-    if(!rightMostColumn && getToSquare(eastIndex, square, squares).isValid)
+    if(!rightMostColumn && toEastSquare.isValid && toEastSquare.hasPiece)
         moves.push(eastIndex);
     if(squares[index] && !squares[index].piece) {
         moves.push(index);
@@ -422,9 +438,20 @@ function generateSquares() {
             piece: pieces[i],
             from: "",
             isValid: "invalid",
-            my: (i > 47)? true : false
+            my: ""
         });
+
     }
+
+    _.each(squares, function(square){
+        if(square.index > 47){
+            square.my = "my";
+        }else if(square.index < 16){
+            square.my = "their";
+        }else {
+            square.my = "";
+        }
+    });
     return squares;
 }
 
