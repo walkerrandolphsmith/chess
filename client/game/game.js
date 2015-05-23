@@ -382,6 +382,19 @@ function getValidMoves(square, squares){
             moves = getPawnMoves(square, squares);
             break;
     }
+
+    /*var movesToRemove = [];
+    _.each(moves, function(index){
+        debugger;
+        var originalIndex = square.index;
+        square.index = index;
+        var isCheck = isCheckCondition(square, squares);
+        square.index = originalIndex;
+        if(isCheck)
+            movesToRemove.push(index);
+    });
+    moves = _.difference(moves, movesToRemove);*/
+
     return moves;
 }
 
@@ -481,4 +494,179 @@ function getCoordinatesGivenIndex(index) {
         column: index % 8,
         row: Math.floor(index / 8)
     };
+}
+
+function isCheckCondition(square, squares){
+    var isCheck = false;
+
+    var owner = square.piece.id.charAt(0);
+    var opponent = (owner === 'w')? 'b' : 'w';
+
+    var king = _.find(squares, function(square){
+        if(square.piece)
+            return square.piece.id === owner + "x";
+    });
+
+    var kp = king.piece,
+        r = king.coordinates.row,
+        c = king.coordinates.column,
+        rr, cc;
+
+    var nextIndex = king.index;
+    for(rr = r; rr > 0 ; rr--){
+        nextIndex -= 8;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'r'
+                    ||(rr === r && t === 'x')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+    nextIndex = king.index;
+    for(rr = r; rr < 7; rr++){
+        nextIndex += 8;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'r'
+                    ||(rr === r && t === 'x')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+    nextIndex = king.index;
+    for(cc = c; cc > 0; cc--){
+        nextIndex -= 1;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'r'
+                    ||(rr === r && t === 'x')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+    nextIndex = king.index;
+    for(cc = c; cc < 7; cc++){
+        nextIndex += 1;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'r'
+                    ||(rr === r && t === 'x')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+
+    nextIndex = king.index;
+    for(rr = r, cc = c; rr > 0 && cc > 0; rr--, cc--){
+        nextIndex -= 9;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'b'
+                    ||(rr === r && t === 'x')
+                    ||(rr === r && t === 'p')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+    nextIndex = king.index;
+    for(rr = r, cc = c; rr > 0 && cc < 7; rr--, cc++){
+        nextIndex -= 7;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'b'
+                    ||(rr === r && t === 'x')
+                    ||(rr === r && t === 'p')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+    nextIndex = king.index;
+    for(rr = r, cc = c; rr < 7 && cc > 0; rr++, cc--){
+        nextIndex += 7;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'b'
+                    ||(rr === r && t === 'x')
+                    ||(rr === r && t === 'p')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+    nextIndex = king.index;
+    for(rr = r, cc = c; rr < 7 && cc < 7; rr++, cc++){
+        nextIndex += 9;
+        var p = squares[nextIndex].piece;
+        if(p){
+            if(isOpponent(kp, p)){
+                var t = p.id.charAt(1);
+                if(t === 'q' || t === 'b'
+                    ||(rr === r && t === 'x')
+                    ||(rr === r && t === 'p')
+                )
+                    isCheck = true;
+            }
+            break;
+        }
+    }
+
+    var nextIndex = square.index;
+    if(c !== 0){
+        _.each([nextIndex -17, nextIndex + 15], function(i){
+            var p = squares[i].piece;
+            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                isCheck = true;
+        });
+    }
+    if(c > 1){
+        _.each([nextIndex - 10, nextIndex + 6], function(i){
+            var p = squares[i].piece;
+            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                isCheck = true;
+        });
+    }
+
+    if(c !== 7){
+        _.each([nextIndex - 15, nextIndex + 17], function(i){
+            var p = squares[i].piece;
+            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                isCheck = true;
+        });
+    }
+    if(c < 6){
+        _.each([nextIndex - 6, nextIndex + 10], function(i){
+            var p = squares[i].piece;
+            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                isCheck = true;
+        });
+    }
+    return isCheck;
 }
