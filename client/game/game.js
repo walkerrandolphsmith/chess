@@ -315,8 +315,20 @@ function getKnightMoves(square, squares){
 function getKingMoves(square, squares){
     var moves = [],
         i = square.index;
+    var directions = [i-8, i+8];
 
-    var directions = [i-9, i-8, i-7, i-1, i+1, i+9, i+8, i+7];
+    if(square.coordinates.column !== 7) {
+        directions.push(i + 1);
+        directions.push(i - 7);
+        directions.push(i + 9);
+    }
+
+    if(square.coordinates.column !== 0){
+        directions.push(i - 1);
+        directions.push(i - 9);
+        directions.push(i + 7);
+    }
+
     directions.forEach(function(index){
         if(getToSquare(index, square, squares).isValid)
             moves.push(index)
