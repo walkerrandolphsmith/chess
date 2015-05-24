@@ -388,26 +388,25 @@ function getValidMoves(square, squares){
             moves = getPawnMoves(square, squares);
             break;
     }
-    /*
     var movesToRemove = movesThatCauseCheck(moves, square, squares);
     moves = _.difference(moves, movesToRemove);
-    */
     return moves;
 }
 
 function movesThatCauseCheck(moves, square ,squares){
     var movesToRemove = [];
-    _.each(moves, function(index){
-        var originalIndex = square.index;
-        var originalPiece = square.piece;
+    var originalIndex = square.index;
+    var originalPiece = square.piece;
 
+    _.each(moves, function(index){
+        var toSquarePiece = squares[index].piece;
         squares[index].piece = originalPiece;
         squares[originalIndex].piece = null;
 
         var isCheck = isCheckCondition(squares[index], squares);
 
         squares[originalIndex].piece = originalPiece;
-        squares[index].piece = null;
+        squares[index].piece = toSquarePiece;
 
         if(isCheck)
             movesToRemove.push(index);
