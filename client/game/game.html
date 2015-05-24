@@ -6,20 +6,19 @@
 </template>
 
 <template name="Board">
-    <div id="board">
+    <div id="board" class="showTurn {{currentTurn}}">
       {{#each squares}}
         {{> Square}}
       {{/each}}
     </div>
-    <aside>
-        <h1>{{_id}}</h1>
-        <p>{{currentPlayer}}</p>
-        {{> Reset}}
-    </aside>
+    {{> Reset}}
+
 </template>
 
 <template name="Square">
-    <div id="{{position}}" class="square {{color}} {{from}} {{isValid}} {{my}}">{{{piece.code}}}</div>
+    <div id="{{position}}" class="square {{color}} {{from}} {{isValid}} {{my}}">
+        {{{piece.code}}}
+    </div>
 </template>
 
 <template name="Reset">

@@ -7,6 +7,13 @@ Template.Game.helpers({
 Template.Board.helpers({
     squares: function(){
         return Games.findOne({players: Meteor.userId()}).squares;
+    },
+    currentTurn: function(){
+        var currentTurn = "dark";
+        var game = Games.findOne({players: Meteor.userId()});
+        if(game.currentPlayer === game.players[0])
+            currentTurn = "light";
+        return currentTurn;
     }
 });
 
@@ -32,8 +39,6 @@ Template.Square.events({
             return square.from
         });
 
-
-
         if(!fromSquare){
             //If you select an empty tile
             //on your first selection return
@@ -56,7 +61,8 @@ Template.Square.events({
             });
 
             Games.update(game._id, {$set: {squares: game.squares}});
-        }else{
+        }
+        else{
             //If the selected toPiece belongs to you
             if(p && canSelectFromSquare(p,game)) {
                 //Reset previous from square
@@ -382,8 +388,15 @@ function getValidMoves(square, squares){
             moves = getPawnMoves(square, squares);
             break;
     }
+    /*
+    var movesToRemove = movesThatCauseCheck(moves, square, squares);
+    moves = _.difference(moves, movesToRemove);
+    */
+    return moves;
+}
 
-    /*var movesToRemove = [];
+function movesThatCauseCheck(moves, square ,squares){
+    var movesToRemove = [];
     _.each(moves, function(index){
         var originalIndex = square.index;
         var originalPiece = square.piece;
@@ -399,9 +412,7 @@ function getValidMoves(square, squares){
         if(isCheck)
             movesToRemove.push(index);
     });
-    moves = _.difference(moves, movesToRemove);*/
-
-    return moves;
+    return movesToRemove;
 }
 
 
@@ -481,7 +492,6 @@ function isCheckCondition(square, squares){
             break;
         }
     }
-
     nextIndex = king.index;
     for(rr = r, cc = c; rr > 0 && cc > 0; rr--, cc--){
         nextIndex -= 9;
@@ -546,37 +556,44 @@ function isCheckCondition(square, squares){
             break;
         }
     }
-
-    var nextIndex = square.index;
+    nextIndex = king.index;
     if(c !== 0){
         _.each([nextIndex -17, nextIndex + 15], function(i){
-            var p = squares[i].piece;
-            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
-                isCheck = true;
+            if(squares[i]) {
+                var p = squares[i].piece;
+                if (p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                    isCheck = true;
+            }
         });
     }
     if(c > 1){
         _.each([nextIndex - 10, nextIndex + 6], function(i){
-            var p = squares[i].piece;
-            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
-                isCheck = true;
+            if(squares[i]) {
+                var p = squares[i].piece;
+                if (p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                    isCheck = true;
+            }
         });
     }
-
     if(c !== 7){
         _.each([nextIndex - 15, nextIndex + 17], function(i){
-            var p = squares[i].piece;
-            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
-                isCheck = true;
+            if(squares[i]) {
+                var p = squares[i].piece;
+                if (p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                    isCheck = true;
+            }
         });
     }
     if(c < 6){
         _.each([nextIndex - 6, nextIndex + 10], function(i){
-            var p = squares[i].piece;
-            if(p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
-                isCheck = true;
+            if(squares[i]) {
+                var p = squares[i].piece;
+                if (p && isOpponent(kp, p) && p.id.charAt(1) === 'k')
+                    isCheck = true;
+            }
         });
     }
+
     return isCheck;
 }
 

@@ -1,3 +1,7 @@
+@dark: #64494D;
+@light: #C8B08F;
+@showTurn: green;
+
 #board {
     display: flex;
     flex-flow: row wrap;
@@ -30,11 +34,11 @@
         }
 
         &.dark {
-            background: #64494D;
+            background: @dark;
         }
 
         &.light {
-            background: #C8B08F;
+            background: @light;
         }
 
         &.selected {
@@ -50,18 +54,33 @@
         }
 
         &.their {
-            opacity: 0.5;
+
         }
     }
 }
 
-aside {
-    //position: absolute;
-    right: 0;
-    margin-right: 2em;
-    background: grey;
-    box-sizing: border-box;
-    width: 250px;
-    top: 59px;
-    height: 336px;
+#board.showTurn {
+    &.light {
+        div[id^="1"] {
+            &.light {
+                background: linear-gradient(to bottom, @light, @showTurn);
+            }
+
+            &.dark {
+                background: linear-gradient(to bottom, @dark, @showTurn);
+            }
+        }
+    }
+
+    &.dark {
+        div[id^="8"] {
+            &.light {
+                background: linear-gradient(to bottom, @showTurn, @light);
+            }
+
+            &.dark {
+                background: linear-gradient(to bottom, @showTurn, @dark);
+            }
+        }
+    }
 }
