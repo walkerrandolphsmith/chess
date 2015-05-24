@@ -1,0 +1,26 @@
+<template name="Aside">
+    <aside class="{{showMenu}}">
+        <ul>
+            <li>{{> ToggleMenu }}</li>
+            <li>{{> Reset }}</li>
+            <li>{{> ShowTurn }}</li>
+            <li>{{> ShowMoves }}</li>
+        </ul>
+    </aside>
+</template>
+
+<template name="Reset">
+    <button>Reset</button>
+</template>
+
+<template name="ShowTurn">
+    <button>Show Turn</button>
+</template>
+
+<template name="ShowMoves">
+    <button>Show Moves</button>
+</template>
+
+<template name="ToggleMenu">
+    <a>Close</a>
+</template>

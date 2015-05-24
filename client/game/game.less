@@ -45,10 +45,6 @@
             color: red;
         }
 
-        &.valid {
-            background-color: #12aafc !important;
-        }
-
         &.my {
             cursor: pointer;
         }
@@ -82,5 +78,11 @@
                 background: linear-gradient(to bottom, @showTurn, @dark);
             }
         }
+    }
+}
+
+#board.showMoves {
+    .square.valid {
+        background-color: #12aafc !important;
     }
 }

@@ -1,0 +1,18 @@
+@aside-width: 420px;
+
+aside {
+  background-color: grey;
+  width: @aside-width;
+  height: 100vh;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  z-index: 2;
+  transition: left 0.5s ease-out;
+
+  &.closed {
+    left: -@aside-width;
+  }
+}
+
+

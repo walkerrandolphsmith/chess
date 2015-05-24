@@ -9,17 +9,22 @@ Template.Board.helpers({
         return Games.findOne({players: Meteor.userId()}).squares;
     },
     currentTurn: function(){
-        var currentTurn = "dark";
         var game = Games.findOne({players: Meteor.userId()});
-        if(game.currentPlayer === game.players[0])
-            currentTurn = "light";
-        return currentTurn;
+        return (game.currentPlayer === game.players[0])? "light" : "dark";
+    },
+    showTurn: function(){
+        var settings = Settings.findOne({player: Meteor.userId()});
+        return (settings.showTurn)? "showTurn" : "";
+    },
+    showMoves: function(){
+        var settings = Settings.findOne({player: Meteor.userId()});
+        return (settings.showMoves)? "showMoves" : "";
     }
 });
 
 Template.Reset.events({
     "click": function(){
-        var game = Template.currentData();
+        var game = Games.findOne({players: Meteor.userId()});
         Games.update(game._id, {$set: {squares: generateSquares(), currentPlayer: game.players[0]}});
     }
 });
@@ -389,8 +394,7 @@ function getValidMoves(square, squares){
             break;
     }
     var movesToRemove = movesThatCauseCheck(moves, square, squares);
-    moves = _.difference(moves, movesToRemove);
-    return moves;
+    return _.difference(moves, movesToRemove);
 }
 
 function movesThatCauseCheck(moves, square ,squares){
@@ -413,7 +417,6 @@ function movesThatCauseCheck(moves, square ,squares){
     });
     return movesToRemove;
 }
-
 
 function isCheckCondition(square, squares){
     var isCheck = false;
@@ -596,21 +599,6 @@ function isCheckCondition(square, squares){
     return isCheck;
 }
 
-
-Meteor.startup(function () {
-    Accounts.onLogin(function(){
-        var userId = Meteor.userId();
-        if(!Games.findOne({players: userId})){
-
-            Games.insert({
-                squares: generateSquares(),
-                players: [userId],
-                currentPlayer: userId
-            });
-        }
-    });
-});
-
 function generateSquares() {
     var squares = [];
     var pieces = {
@@ -694,3 +682,28 @@ function getCoordinatesGivenIndex(index) {
         row: Math.floor(index / 8)
     };
 }
+
+Meteor.startup(function () {
+    Accounts.onLogin(function(){
+        var userId = Meteor.userId();
+
+        if(!Settings.findOne({player: userId})){
+
+            Settings.insert({
+                player: userId,
+                showTurn: true,
+                showMoves: true,
+                showMenu: false
+            })
+        }
+
+        if(!Games.findOne({players: userId})){
+
+            Games.insert({
+                squares: generateSquares(),
+                players: [userId],
+                currentPlayer: userId
+            });
+        }
+    });
+});

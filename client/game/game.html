@@ -1,26 +1,21 @@
 <template name="Game">
   {{> Nav}}
+  {{> Aside }}
     {{#with game}}
         {{> Board}}
     {{/with}}
 </template>
 
 <template name="Board">
-    <div id="board" class="showTurn {{currentTurn}}">
+    <div id="board" class="{{showTurn}} {{currentTurn}} {{showMoves}}">
       {{#each squares}}
         {{> Square}}
       {{/each}}
     </div>
-    {{> Reset}}
-
 </template>
 
 <template name="Square">
     <div id="{{position}}" class="square {{color}} {{from}} {{isValid}} {{my}}">
         {{{piece.code}}}
     </div>
-</template>
-
-<template name="Reset">
-    <button>Reset</button>
 </template>
