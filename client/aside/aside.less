@@ -2,12 +2,13 @@
 @darker-color: red;
 @darkest-color: darkred;
 
+@aside-height: ~"100vh - 5px";
 @aside-width: 420px;
 
 aside {
   background-color: #ddd;
   width: @aside-width;
-  height: 100vh;
+  height: calc(@aside-height);
   position: absolute;
   top: 5px;
   left: 0;
