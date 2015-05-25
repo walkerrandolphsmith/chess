@@ -2,25 +2,48 @@
     <aside class="{{showMenu}}">
         <ul>
             <li>{{> ToggleMenu }}</li>
-            <li>{{> Reset }}</li>
             <li>{{> ShowTurn }}</li>
             <li>{{> ShowMoves }}</li>
+            {{> Reset }}
         </ul>
     </aside>
 </template>
 
 <template name="Reset">
-    <button>Reset</button>
+    <li>
+        <span>Reset</span>
+    </li>
 </template>
 
 <template name="ShowTurn">
-    <button>Show Turn</button>
+    <label><span>Show Turn</span>
+        <div class="onoffswitch-wrapper">
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{{isChecked}}">
+                <label class="onoffswitch-label" for="android-web">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+    </label>
 </template>
 
 <template name="ShowMoves">
-    <button>Show Moves</button>
+    <label><span>Show Moves</span>
+        <div class="onoffswitch-wrapper">
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{{isChecked}}">
+                <label class="onoffswitch-label" for="android-web">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+    </label>
 </template>
 
 <template name="ToggleMenu">
-    <a>Close</a>
+    <i class="fa {{isOpen}}"></i>
+    <a href="#">{{isOpenText}}</a>
 </template>

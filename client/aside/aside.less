@@ -1,7 +1,11 @@
+@color: white;
+@darker-color: red;
+@darkest-color: darkred;
+
 @aside-width: 420px;
 
 aside {
-  background-color: grey;
+  background-color: #ddd;
   width: @aside-width;
   height: 100vh;
   position: absolute;
@@ -12,6 +16,120 @@ aside {
 
   &.closed {
     left: -@aside-width;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      display: inline-block;
+      width: 100%;
+      padding-top: 1em;
+      padding-bottom: 1em;
+
+      &:first-child {
+        a {
+          text-decoration: none;
+          margin-left: 2em;
+          color: black;
+        }
+        i {
+          float: right;
+          margin-right: 1em;
+          cursor: pointer;
+        }
+      }
+
+      &:last-child:hover {
+        border: inset 1px;
+        box-sizing: border-box;
+        background-color: #ccc;
+        cursor: pointer;
+
+        -webkit-animation: fill .5s steps(4) infinite;
+        -moz-animation:    fill .5s steps(4) infinite;
+        -ms-animation:     fill .5s steps(4) infinite;
+        animation:         fill .5s steps(4) infinite;
+      }
+
+      span{
+        margin-left: 2em;
+        vertical-align: middle;
+        line-height: 30px;
+        cursor: pointer;
+      }
+
+      label{
+
+
+      }
+    }
+  }
+
+}
+
+@-webkit-keyframes fill {
+  0% {
+    background-color: @color;
+  }
+  50% {
+    background-color: @darker-color;
+  }
+  100% {
+    background-color: @darkest-color;
+  }
+}
+
+@-moz-keyframes fill {
+  0% {
+    background-color: @color;
+  }
+  50% {
+    background-color: @darker-color;
+  }
+  100% {
+    background-color: @darkest-color;
+  }
+}
+
+@-ms-keyframes fill {
+  0% {
+    background-color: @color;
+  }
+  50% {
+    background-color: @darker-color;
+  }
+  100% {
+    background-color: @darkest-color;
+  }
+}
+
+@-o-keyframes fill {
+  0% {
+    background-color: @color;
+  }
+  50% {
+    background-color: @darker-color;
+  }
+  100% {
+    background-color: @darkest-color;
+  }
+}
+
+@keyframes fill {
+  0% {
+    background-color: @color;
+  }
+  50% {
+    background-color: @darker-color;
+  }
+  100% {
+    background-color: @darkest-color;
   }
 }
 
