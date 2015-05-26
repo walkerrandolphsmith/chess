@@ -28,6 +28,22 @@ Template.ShowMoves.helpers({
     }
 });
 
+Template.ShowCoordinates.events({
+    "click": function(){
+        var settings = Settings.findOne({player: Meteor.userId()});
+        var showCoordinates = !settings.showCoordinates;
+        Settings.update(settings._id, {$set: {showCoordinates: showCoordinates}});
+    }
+});
+
+Template.ShowCoordinates.helpers({
+    isChecked: function(){
+        var settings = Settings.findOne({player: Meteor.userId()});
+        return settings.showCoordinates;
+    }
+});
+
+
 Template.ToggleMenu.events({
     "click": function(){
         var settings = Settings.findOne({player: Meteor.userId()});

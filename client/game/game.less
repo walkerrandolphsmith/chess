@@ -2,6 +2,8 @@
 @light: #C8B08F;
 @showTurn: green;
 
+@tile: 42px;
+
 #board {
     display: flex;
     flex-flow: row wrap;
@@ -10,8 +12,8 @@
     height: 336px;
 
     .square {
-        width: 42px;
-        height: 42px;
+        width: @tile;
+        height: @tile;
         color: white;
         font-size: 30px;
         text-align: center;
@@ -84,5 +86,31 @@
 #board.showMoves {
     .square.valid {
         background-color: #12aafc !important;
+    }
+}
+
+#board.showCoordinates {
+    .square {
+        &:nth-child(8n) {
+
+            &:before {
+                content: attr(data-row);
+                position: absolute;
+                height: @tile;
+                width: @tile;
+                margin-left: @tile;
+                color: black;
+            }
+
+            &.empty:before {
+                margin-left: 25px;
+            }
+
+        }
+
+        &[id^="1"]:after {
+            content: attr(data-column);
+            color: black;
+        }
     }
 }

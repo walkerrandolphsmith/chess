@@ -7,7 +7,7 @@
 </template>
 
 <template name="Board">
-    <div id="board" class="{{showTurn}} {{currentTurn}} {{showMoves}}">
+    <div id="board" class="{{showTurn}} {{currentTurn}} {{showMoves}} {{showCoordinates}}">
       {{#each squares}}
         {{> Square}}
       {{/each}}
@@ -15,7 +15,11 @@
 </template>
 
 <template name="Square">
-    <div id="{{position}}" class="square {{color}} {{from}} {{isValid}} {{my}}">
+    <div id="{{position.row}}{{position.column}}"
+         class="square {{color}} {{#unless piece}}empty{{/unless}} {{from}} {{isValid}} {{my}}"
+         data-row="{{position.row}}" data-column="{{position.column}}">
+        <span>
         {{{piece.code}}}
+        </span>
     </div>
 </template>

@@ -4,6 +4,7 @@
             <li>{{> ToggleMenu }}</li>
             <li>{{> ShowTurn }}</li>
             <li>{{> ShowMoves }}</li>
+            <li>{{> ShowCoordinates }}</li>
             {{> Reset }}
         </ul>
     </aside>
@@ -31,6 +32,20 @@
 
 <template name="ShowMoves">
     <label><span>Show Moves</span>
+        <div class="onoffswitch-wrapper">
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{{isChecked}}">
+                <label class="onoffswitch-label" for="android-web">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+    </label>
+</template>
+
+<template name="ShowCoordinates">
+    <label><span>Show Coordinates</span>
         <div class="onoffswitch-wrapper">
             <div class="onoffswitch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{{isChecked}}">

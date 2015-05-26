@@ -19,6 +19,10 @@ Template.Board.helpers({
     showMoves: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
         return (settings.showMoves)? "showMoves" : "";
+    },
+    showCoordinates: function(){
+        var settings = Settings.findOne({player: Meteor.userId()});
+        return (settings.showCoordinates)? "showCoordinates" : "";
     }
 });
 
@@ -669,7 +673,10 @@ function generateSquares() {
 
 function getPosition(row, column){
     var letters = ['a','b','c','d','e','f','g','h'];
-    return (8 - row) + letters[column];
+    return {
+        row: 8 - row,
+        column: letters[column]
+    }
 }
 
 function getIndexGivenCoordinates(row, column) {
@@ -693,6 +700,7 @@ Meteor.startup(function () {
                 player: userId,
                 showTurn: true,
                 showMoves: true,
+                showCoordinates: true,
                 showMenu: false
             })
         }
