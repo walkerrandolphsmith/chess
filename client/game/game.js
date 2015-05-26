@@ -14,15 +14,15 @@ Template.Board.helpers({
     },
     showTurn: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
-        return (settings.showTurn)? "showTurn" : "";
+        return settings.showTurn;
     },
     showMoves: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
-        return (settings.showMoves)? "showMoves" : "";
+        return settings.showMoves;
     },
     showCoordinates: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
-        return (settings.showCoordinates)? "showCoordinates" : "";
+        return settings.showCoordinates;
     }
 });
 
