@@ -1,10 +1,28 @@
 <template name="Aside">
     <aside class="{{showMenu}}">
         <ul>
-            <li>{{> ToggleMenu }}</li>
-            <li>{{> ShowTurn }}</li>
-            <li>{{> ShowMoves }}</li>
-            <li>{{> ShowCoordinates }}</li>
+            <li>
+                {{> ToggleMenu }}
+            </li>
+
+            {{#with settings}}
+                <li>
+                    <label><span>Show Turn</span>
+                        {{> OnOff option="showTurn"}}
+                    </label>
+                </li>
+                <li>
+                    <label><span>Show Moves</span>
+                        {{> OnOff option="showMoves"}}
+                    </label>
+                </li>
+                <li>
+                    <label><span>Show Position</span>
+                        {{> OnOff option="showCoordinates"}}
+                    </label>
+                </li>
+            {{/with}}
+
             {{> Reset }}
         </ul>
     </aside>
@@ -14,48 +32,6 @@
     <li>
         <span>Reset</span>
     </li>
-</template>
-
-<template name="ShowTurn">
-    <label><span>Show Turn</span>
-        <div class="onoffswitch-wrapper">
-            <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{{isChecked}}">
-                <label class="onoffswitch-label" for="android-web">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                </label>
-            </div>
-        </div>
-    </label>
-</template>
-
-<template name="ShowMoves">
-    <label><span>Show Moves</span>
-        <div class="onoffswitch-wrapper">
-            <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{{isChecked}}">
-                <label class="onoffswitch-label" for="android-web">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                </label>
-            </div>
-        </div>
-    </label>
-</template>
-
-<template name="ShowCoordinates">
-    <label><span>Show Coordinates</span>
-        <div class="onoffswitch-wrapper">
-            <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{{isChecked}}">
-                <label class="onoffswitch-label" for="android-web">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                </label>
-            </div>
-        </div>
-    </label>
 </template>
 
 <template name="ToggleMenu">
