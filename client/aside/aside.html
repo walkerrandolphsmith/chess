@@ -1,11 +1,10 @@
 <template name="Aside">
     <aside class="{{showMenu}}">
         <ul>
-            <li>
-                {{> ToggleMenu }}
-            </li>
-
             {{#with settings}}
+                <li>
+                    {{> ToggleMenu }}
+                </li>
                 <li>
                     <label><span>Show Turn</span>
                         {{> OnOff option="showTurn"}}
@@ -35,6 +34,5 @@
 </template>
 
 <template name="ToggleMenu">
-    <i class="fa {{isOpen}}"></i>
-    <a href="#">{{isOpenText}}</a>
+    <i class="fa {{isOpen}}"><a href="#">{{isOpenText}}</a></i>
 </template>

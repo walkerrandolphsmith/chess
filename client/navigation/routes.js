@@ -1,3 +1,9 @@
+Router.configure({
+    layoutTemplate: "MasterLayout",
+    loadingTemplate: "Loading",
+    notFoundTemplate: "NotFound"
+});
+
 Router.route('/', function () {
     this.render('Home', {
         data: {
@@ -14,7 +20,7 @@ Router.route('/leaderboard', function() {
     });
 });
 
-Router.route('/games',function () {
+Router.route('/play',function () {
     this.render('Game', {
         data: {
 
