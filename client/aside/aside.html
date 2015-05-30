@@ -1,10 +1,8 @@
 <template name="Aside">
-    <aside class="{{showMenu}}">
-        <ul>
-            {{#with settings}}
-                <li>
-                    {{> ToggleMenu }}
-                </li>
+    {{#with settings}}
+        <aside class="{{#if showMenu}} open {{else}} closed {{/if}}">
+            <ul>
+                {{> ToggleMenu }}
                 <li>
                     <label><span>Show Turn</span>
                         {{> OnOff option="showTurn"}}
@@ -20,19 +18,8 @@
                         {{> OnOff option="showCoordinates"}}
                     </label>
                 </li>
-            {{/with}}
-
-            {{> Reset }}
-        </ul>
-    </aside>
-</template>
-
-<template name="Reset">
-    <li>
-        <span>Reset</span>
-    </li>
-</template>
-
-<template name="ToggleMenu">
-    <i class="fa {{isOpen}}"><a href="#">{{isOpenText}}</a></i>
+                {{> Reset }}
+            </ul>
+        </aside>
+    {{/with}}
 </template>
