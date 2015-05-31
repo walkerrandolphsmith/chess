@@ -4,39 +4,15 @@ Router.configure({
     notFoundTemplate: "NotFound"
 });
 
-Router.route('/leaderboard', function() {
-    this.render('Leaderboard', {
-        data: {
-
-        }
-    });
-});
-
-Router.route('/play',function () {
-    this.render('Game', {
-        data: {
-
-        }
-    });
-});
-
 Router.route('index',{
     path: '/',
-    template: 'Home',
-    action: function(){
-        this.render('Home', {
-            data: {
-
-            }
-        });
-    },
+    template: 'Signup',
     onBeforeAction: function() {
         Session.set('currentRoute', 'index');
         this.next();
     }
 });
 
-/*
 Router.route('signup',{
     path: '/signup',
     template: 'Signup',
@@ -57,4 +33,4 @@ Router.route('signup/:token',{
         Session.set('invitation', this.params.token);
         this.next();
     }
-});*/
+});
