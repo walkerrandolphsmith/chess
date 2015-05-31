@@ -1,5 +1,9 @@
 <template name="MasterLayout">
     {{> Nav }}
     {{> Aside }}
-    {{> yield}}
+        <div class="center">
+            <div>
+                {{> yield}}
+            </div>
+        </div>
 </template>
