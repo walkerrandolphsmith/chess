@@ -15,9 +15,9 @@ function userAuthenticated(){
 }
 
 Router.onBeforeAction(checkUserLoggedIn, {
-    except: ['index', 'signup', 'signup/:token']
+    except: ['index', 'signup', 'signup/:token', 'signin']
 });
 
 Router.onBeforeAction(userAuthenticated, {
-    only: ['index', 'signup', 'signup/:token']
+    only: ['index', 'signup', 'signup/:token', 'signin']
 });

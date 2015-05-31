@@ -1,5 +1,20 @@
 <template name="Signup">
+    {{#if isLoggedIn}}
+        {{> Signout }}
+    {{else}}
+        {{> SignupNew }}
+    {{/if}}
+</template>
+
+<template name="SignupNew">
     <div id="signup-form">
-      {{> loginButtons }}
+
+        <input type="email" name="email" placeholder="Email:" />
+        <input type="password" name="password" placeholder="Password:" />
+        <input type="text" name="token" placeholder="Game Invitation" value="{{token}}">
+
+        <button class="signup">Signup</button>
+
+        <span>Already a member? <a href="/signin">Signin</a></span>
     </div>
 </template>

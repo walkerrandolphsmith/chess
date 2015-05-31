@@ -19,5 +19,11 @@ Meteor.methods({
             })
         });
 
+    },
+    signupUser: function(user){
+        Accounts.createUser({
+            email: user.email,
+            password: user.password
+        });
     }
 });

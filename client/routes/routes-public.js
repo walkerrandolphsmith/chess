@@ -34,3 +34,13 @@ Router.route('signup/:token',{
         this.next();
     }
 });
+
+Router.route('signin',{
+    path: '/signin',
+    template: 'Signin',
+    onBeforeAction: function() {
+        console.log("Signin before action");
+        Session.set('currentRoute', 'signin');
+        this.next();
+    }
+});

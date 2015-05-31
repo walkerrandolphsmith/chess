@@ -1,8 +1,8 @@
 <template name="send-invite">
     <h1>A friend has invited you to play chess</h1>
-    <p>To accept this invitation, click the link below</p>
-
-    <a href="{{urlWithToken}}" title="invitation">Play chess now</a>
-
-    <p> for this test print the url with token : {{urlWithToken}}</p>
+    <p>
+        <span>To accept this invitation, click</span>
+        <a href="{{urlWithToken}}" title="invitation">here</a>
+        <span>, or you can visit chess.com and include the token {{token}} in your registration.</span>
+    </p>
 </template>
