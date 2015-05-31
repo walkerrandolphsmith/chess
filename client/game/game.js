@@ -1,9 +1,3 @@
-Template.Game.helpers({
-    game: function(){
-        return Games.findOne({players: Meteor.userId()});
-    }
-});
-
 Template.Board.helpers({
     squares: function(){
         return Games.findOne({players: Meteor.userId()}).squares;

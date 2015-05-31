@@ -7,7 +7,7 @@ Router.route('/leaderboard', function() {
 });
 
 Router.route('/play',function () {
-    this.render('Game', {
+    this.render('Play', {
         data: {
 
         }

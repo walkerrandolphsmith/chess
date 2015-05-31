@@ -1,0 +1,9 @@
+<template name="Play">
+  {{#with game }}
+    {{#if hasOpponent }}
+      {{> Board }}
+    {{else}}
+      {{> InviteForm }}
+    {{/if }}
+  {{/with }}
+</template>
