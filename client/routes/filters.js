@@ -7,6 +7,17 @@ function checkUserLoggedIn(){
     }
 }
 
+function userAuthenticated(){
+    if(Meteor.loggingIn())
+        Router.go('/play');
+    else
+        this.next();
+}
+
 Router.onBeforeAction(checkUserLoggedIn, {
     except: ['index', 'signup', 'signup/:token']
+});
+
+Router.onBeforeAction(userAuthenticated, {
+    only: ['index', 'signup', 'signup/:token']
 });
