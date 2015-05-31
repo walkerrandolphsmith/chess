@@ -1,21 +1,23 @@
 Template.InviteForm.events({
     'click .send-invite': function() {
+
         var game = Template.currentData();
+        var email = document.querySelectorAll("input[name='email']")[0].value;
 
-        var confirmInvite, invitee, url;
-        invitee = {
+        var invitation = {
             id: game._id,
-            email: this.email
+            email: email,
+            url: window.location.origin + "/signup"
         };
-        url = window.location.origin + "/signup";
 
-        confirmInvite = confirm("Are you sure you want to invite " + this.email + "?");
+        var confirmInvite = confirm("Are you sure you want to invite " + email + "?");
+
         if (confirmInvite) {
-            return Meteor.call('sendInvite', invitee, url, function(error) {
+            return Meteor.call('sendInvite', invitation, function(error) {
                 if (error) {
-                    return console.log(error);
+                    return console.log("ERROR: ", error);
                 } else {
-                    return alert("Invite sent to " + invitee.email + "!");
+                    return alert("Invite sent to " + invitation.email + "!");
                 }
             });
         }
