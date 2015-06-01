@@ -3,3 +3,7 @@ Template.Signout.events({
         Meteor.logout();
     }
 });
+
+Template.Signout.helpers({
+   username: Meteor.User.getUsername
+});
