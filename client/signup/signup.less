@@ -1,30 +1,69 @@
 @center: ~"50% - 113px";
+@knight: ~"200px - 5em";
+
+@sign-up-height: 200px;
+
+#signup-form, #signin-form, #signout-form {
+
+}
 
 #signup-form {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
 
-  #login-buttons {
-    display: block;
-    position: relative;
-    height: 245px;
-    margin-left: auto;
-    margin-right: auto;
-    float: none;
+  #what-happens{
+    height: @sign-up-height;
+    width: 25%;
+
+    p{
+      font-size: 2em;
+    }
   }
 
-  .login-link-and-dropdown-list, .login-form-sign-in{
-    text-align: center;
+  #form{
+    height: @sign-up-height;
+    width: 75%;
+
+    input{
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 1em;
+      margin-bottom: 0.5em;
+
+      &[name="email"]{
+        color: red;
+      }
+
+      &[name="password"]{
+        color: blue;
+      }
+
+      &[name="token"]{
+        color: green;
+      }
+
+    }
+
+    a {
+      display: block;
+      width: 100%;
+      padding: 0.5em;
+      background-color: green;
+      margin-top: 0.5em;
+      border-radius: 2px;
+      box-sizing: border-box;
+      text-align: center;
+      cursor: pointer;
+    }
   }
 
-  #login-dropdown-list {
-    left: calc(@center) !important;
-  }
+  .signup {
+    width: 75%;
 
-  .login-close-text {
-    float: none;
-  }
-
-  .login-form, .login-button{
-    margin-top: 1em;
   }
 
 }
+

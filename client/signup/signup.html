@@ -9,12 +9,22 @@
 <template name="SignupNew">
     <div id="signup-form">
 
-        <input type="email" name="email" placeholder="Email:" />
-        <input type="password" name="password" placeholder="Password:" />
-        <input type="text" name="token" placeholder="Game Invitation" value="{{token}}">
+        <div id="what-happens">
+            <p>&#9822;</p>
+        </div>
 
-        <button class="signup">Signup</button>
+        <div id="form">
+            <input type="email" name="email" placeholder="Email:" />
+            <input type="password" name="password" placeholder="Password:" />
+            {{#if token}}
+                <input type="text" name="token" placeholder="Game Invitation" value="{{token}}">
+            {{/if}}
+            <a class="signup">Signup</a>
+        </div>
 
-        <span>Already a member? <a href="/signin">Signin</a></span>
+        <p class="signin">
+            Already a member?
+            <a href="/signin">Signin</a>
+        </p>
     </div>
 </template>

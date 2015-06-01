@@ -1,7 +1,10 @@
 Template.Signup.helpers({
     isLoggedIn: function(){
         return Meteor.userId();
-    },
+    }
+});
+
+Template.SignupNew.helpers({
     token: function(){
         return Session.get('invitation');
     }

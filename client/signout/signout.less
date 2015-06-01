@@ -4,49 +4,12 @@
 @sign-up-height: 200px;
 
 
-#signin-form {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
+#signout-form {
 
-  #form{
-    height: @sign-up-height;
-    width: 100%;
-
-    input{
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 1em;
-      margin-bottom: 0.5em;
-
-      &[name="email"]{
-        color: red;
-      }
-
-      &[name="password"]{
-        color: blue;
-      }
-    }
-
-    a {
-      display: block;
-      width: 100%;
-      padding: 0.5em;
-      background-color: green;
-      margin-top: 0.5em;
-      border-radius: 2px;
-      box-sizing: border-box;
-      text-align: center;
-      cursor: pointer;
-    }
+  height: @sign-up-height;
+  
+  button {
+    
   }
-
-  .signin {
-    width: 100%;
-
-  }
-
 }
 

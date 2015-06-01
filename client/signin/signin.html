@@ -1,11 +1,14 @@
 <template name="Signin">
     <div id="signin-form">
 
-        <input type="email" name="email" placeholder="Email:" />
-        <input type="password" name="password" placeholder="Password:" />
+        <div id="form">
+            <input type="email" name="email" placeholder="Email:" />
+            <input type="password" name="password" placeholder="Password:" />
+            <a class="signin">Signin</a>
+        </div>
 
-        <button class="signin">Signin</button>
-
-        <a href="/signup">Create account</a>
+        <p class="signup">
+            <a href="/signup">Create account</a>
+        </p>
     </div>
 </template>
