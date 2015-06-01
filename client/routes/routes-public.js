@@ -41,6 +41,18 @@ Router.route('signin',{
     onBeforeAction: function() {
         console.log("Signin before action");
         Session.set('currentRoute', 'signin');
+        Session.set('invitation', '');
+        this.next();
+    }
+});
+
+Router.route('signin/:token',{
+    path: '/signin/:token',
+    template: 'Signin',
+    onBeforeAction: function() {
+        console.log("Sign in with token on before action");
+        Session.set('currentRoute', 'signin');
+        Session.set('invitation', this.params.token);
         this.next();
     }
 });

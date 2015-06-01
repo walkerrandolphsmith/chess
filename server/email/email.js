@@ -6,6 +6,9 @@ Meteor.methods({
         var email = invitation.email;
         var url =  invitation.url;
 
+        if(Meteor.users.find({"emails.address": email}, {limit: 1}).count()>0)
+            url = url.replace("signup", "signin");
+
         Email.send({
             to: email,
             from: "Play Chess with <dididothat@urkelforce.com>",
