@@ -2,11 +2,9 @@ Meteor.methods({
     sendInvite: function(invitation) {
 
         console.log(invitation);
-
         var id = invitation.id;
         var email = invitation.email;
         var url =  invitation.url;
-
 
         Email.send({
             to: email,
