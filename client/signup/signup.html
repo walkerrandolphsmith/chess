@@ -8,22 +8,14 @@
 
 <template name="SignupNew">
     <div id="signup-form">
-
-        <div id="what-happens">
-            <p>&#9822;</p>
-        </div>
-
-        <div id="form">
-            <input type="email" name="email" placeholder="Email:" />
-            <input type="password" name="password" placeholder="Password:" />
-            {{#if token}}
-                <input type="text" name="token" placeholder="Game Invitation" value="{{token}}">
-            {{/if}}
-            <a class="signup">Signup</a>
-        </div>
+        <input class="form-control" type="email" name="email" placeholder="Email:" />
+        <input class="form-control" type="password" name="password" placeholder="Password:" />
+        {{#if token}}
+            <input class="form-control" type="text" name="token" placeholder="Game Invitation" value="{{token}}">
+        {{/if}}
+        <a class="btn btn-primary signup">Signup</a>
 
         <p class="signin">
-            Already a member?
             <a href="/signin">Signin</a>
         </p>
     </div>

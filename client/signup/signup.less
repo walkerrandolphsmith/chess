@@ -4,66 +4,36 @@
 @sign-up-height: 200px;
 
 #signup-form, #signin-form, #signout-form {
-
-}
-
-#signup-form {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+  width: 300px;
 
-  #what-happens{
-    height: @sign-up-height;
-    width: 25%;
+  input {
+    margin-bottom: 0.75em;
+    &[name="email"]{
+    }
 
-    p{
-      font-size: 2em;
+    &[name="password"]{
+    }
+
+    &[name="token"]{
     }
   }
 
-  #form{
-    height: @sign-up-height;
-    width: 75%;
+  a {
+    width: 100%;
+  }
 
-    input{
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 1em;
-      margin-bottom: 0.5em;
-
-      &[name="email"]{
-        color: red;
-      }
-
-      &[name="password"]{
-        color: blue;
-      }
-
-      &[name="token"]{
-        color: green;
-      }
-
-    }
+  p {
 
     a {
-      display: block;
-      width: 100%;
-      padding: 0.5em;
-      background-color: green;
-      margin-top: 0.5em;
-      border-radius: 2px;
-      box-sizing: border-box;
-      text-align: center;
-      cursor: pointer;
+     display: block;
+     width: 100%;
+     background-color: transparent;
+     text-decoration: none;
     }
   }
-
-  .signup {
-    width: 75%;
-
-  }
-
 }
 
