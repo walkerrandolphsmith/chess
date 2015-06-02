@@ -2,21 +2,19 @@
     {{#if isLoggedIn}}
         {{> Signout }}
     {{else}}
-        {{> SignupNew }}
+        {{> UserForm }}
     {{/if}}
 </template>
 
-<template name="SignupNew">
-    <div id="signup-form">
+<template name="UserForm">
+    <div class="user-form">
         <input class="form-control" type="email" name="email" placeholder="Email:" />
         <input class="form-control" type="password" name="password" placeholder="Password:" />
         {{#if token}}
             <input class="form-control" type="text" name="token" placeholder="Game Invitation" value="{{token}}">
         {{/if}}
-        <a class="btn btn-primary signup">Signup</a>
+        <a class="btn btn-primary {{form}}">{{form}}</a>
 
-        <p class="signin">
-            <a href="/signin">Signin</a>
-        </p>
+        <a class="other" href="/{{otherform}}">{{otherform}}</a>
     </div>
 </template>

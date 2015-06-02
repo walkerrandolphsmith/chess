@@ -3,7 +3,7 @@
 
 @sign-up-height: 200px;
 
-#signup-form, #signin-form, #signout-form {
+.user-form{
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -24,15 +24,13 @@
 
   a {
     width: 100%;
-  }
 
-  p {
-
-    a {
-     display: block;
-     width: 100%;
-     background-color: transparent;
-     text-decoration: none;
+    &.other {
+      display: block;
+      text-align: center;
+      background-color: transparent;
+      text-decoration: none;
+      margin-top: 1em;
     }
   }
 }

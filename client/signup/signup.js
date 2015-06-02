@@ -4,17 +4,27 @@ Template.Signup.helpers({
     }
 });
 
-Template.SignupNew.helpers({
+Template.UserForm.helpers({
+   form: function(){
+       return Session.get('currentRoute');
+   },
+    otherform: function(){
+        var r = Session.get('currentRoute');
+        if(r === "signup")
+            return "signin";
+        else
+            return "signup";
+    },
     token: function(){
         return Session.get('invitation');
     }
 });
 
-Template.Signup.events({
-    "click .signup": function (){
+Template.UserForm.events({
+    "click .btn": function (){
 
         var token = null;
-        var tokenInput = document.querySelectorAll('input[name="token"]')[0]
+        var tokenInput = document.querySelectorAll('input[name="token"]')[0];
         if(tokenInput)
             token = tokenInput.value;
 
@@ -42,4 +52,6 @@ Template.Signup.events({
         })
     }
 });
+
+
 
