@@ -37,7 +37,7 @@ Router.route('signup/:token',{
 
 Router.route('signin',{
     path: '/signin',
-    template: 'Signup',
+    template: 'Signin',
     onBeforeAction: function() {
         console.log("Signin before action");
         Session.set('currentRoute', 'signin');
@@ -48,7 +48,7 @@ Router.route('signin',{
 
 Router.route('signin/:token',{
     path: '/signin/:token',
-    template: 'Signup',
+    template: 'Signin',
     onBeforeAction: function() {
         console.log("Sign in with token on before action");
         Session.set('currentRoute', 'signin');

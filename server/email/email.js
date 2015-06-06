@@ -26,5 +26,11 @@ Meteor.methods({
             email: user.email,
             password: user.password
         });
+    },
+    isAlreadyUser: function(email){
+        console.log("IS ALREADYT USER METHOD CSALL", email);
+        var isAlreadyUser = (Meteor.users.find({"emails.address": email}, {limit: 1}).count()>0);
+        console.log(isAlreadyUser);
+        return isAlreadyUser;
     }
 });

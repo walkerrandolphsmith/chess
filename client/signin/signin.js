@@ -1,10 +1,10 @@
-Template.Signup.helpers({
+Template.Signin.helpers({
     isLoggedIn: function(){
         return Meteor.userId();
     }
 });
 
-Template.SignupForm.helpers({
+Template.SigninForm.helpers({
     token: function(){
         return Session.get('invitation');
     },
@@ -32,39 +32,36 @@ function getUserFromForm(){
     };
 }
 
-Template.SignupForm.events({
+Template.SigninForm.events({
     "keyup input": function(e){
         console.log(e);
         var email = document.querySelectorAll('input[name="email"]')[0].value;
         var password = document.querySelectorAll('input[name="password"]')[0].value;
 
-        Meteor.call('isAlreadyUser', email, function(error, data) {
-            if(error)
-                console.log("ERROR", error);
-            console.log(data);
-            Session.set('hasErrorEmail', data);
-        });
+        if(email.length === 0) {
+            Session.set('hasErrorEmail', false);
+        }
+        else {
+            Meteor.call('isAlreadyUser', email, function (error, data) {
+                if (error)
+                    console.log("ERROR", error);
+                console.log(!data);
+                Session.set('hasErrorEmail', !data);
+            });
+        }
     },
-    "click .signup": function (){
+    "click .signin": function(){
         var user = getUserFromForm();
-        Meteor.call('signupUser', user, function(error){
-            if(error) {
-                console.log("ERROR: ", error);
+        Meteor.loginWithPassword(user.email, user.password, function (error) {
+            if (error) {
+                alert("LOGIN ERROR", error);
                 Session.set('hasError', true);
             }
             else {
-                Meteor.loginWithPassword(user.email, user.password, function (error) {
-                    if (error) {
-                        console.log("LOGIN ERROR", error);
-                        Session.set('hasError', true);
-                    }
-                    else {
-                        if (user.token)
-                            Games.update(user.token, {$push: {players: Meteor.userId()}});
-                    }
-                });
+                if (user.token)
+                    Games.update(user.token, {$push: {players: Meteor.userId()}});
             }
-        })
+        });
     }
 });
 

@@ -1,18 +1,18 @@
-<template name="Signup">
+<template name="Signin">
     {{#if isLoggedIn}}
         {{> Signout }}
     {{else}}
-        {{> SignupForm }}
+        {{> SigninForm }}
     {{/if}}
 </template>
 
-<template name="SignupForm">
+<template name="SigninForm">
     <div class="user-form">
 
         <div class="form-group {{#if hasErrorEmail}} has-error {{/if}}">
             <label class="control-label" for="email">Username</label>
             <input type="email" class="form-control" id="email" name="email">
-            {{#if hasErrorEmail}}<span class="help-block">User has already signed up.</span>{{/if}}
+            {{#if hasErrorEmail}}<span class="help-block">Account has not been created.</span>{{/if}}
         </div>
 
         <div class="form-group {{#if hasErrorPassword}} has-error {{/if}}">
@@ -25,10 +25,10 @@
             <input class="form-control" type="text" name="token" placeholder="Game Invitation" value="{{token}}">
         {{/if}}
 
-        <a class="btn btn-primary signup {{#if hasError}}disabled {{/if}}">
-            Signup
+        <a class="btn btn-primary signin {{#if hasError}}disabled {{/if}}">
+            Signin
         </a>
 
-        <a class="other" href="/signin">Signin</a>
+        <a class="other" href="/signup">Signup</a>
     </div>
 </template>
