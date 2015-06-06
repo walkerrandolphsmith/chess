@@ -1,6 +1,6 @@
 <template name="Aside">
-    {{#with settings}}
-        <aside class="{{#if showMenu}} open {{else}} closed {{/if}}">
+        <aside class="{{#if isOpen}} open {{else}} closed {{/if}}">
+            {{#with settings}}
             <ul>
                 {{> ToggleMenu }}
                 <li>
@@ -22,6 +22,6 @@
                     <span>Reset</span>
                 </li>
             </ul>
+            {{/with}}
         </aside>
-    {{/with}}
 </template>
