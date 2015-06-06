@@ -8,7 +8,7 @@ Router.route('index',{
     path: '/',
     template: 'Signup',
     onBeforeAction: function() {
-        Session.set('currentRoute', 'index');
+        Session.set('currentRoute', 'signup');
         this.next();
     }
 });

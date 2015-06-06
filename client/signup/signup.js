@@ -10,10 +10,7 @@ Template.UserForm.helpers({
    },
     otherform: function(){
         var r = Session.get('currentRoute');
-        if(r === "signup")
-            return "signin";
-        else
-            return "signup";
+        return (r === "signup")? "signin" : "signup";
     },
     token: function(){
         return Session.get('invitation');
