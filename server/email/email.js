@@ -9,16 +9,18 @@ Meteor.methods({
         if(isAlreadyUser(email))
             url = url.replace("signup", "signin");
 
-        Email.send({
+        sendEmail({
             to: email,
-            from: "Play Chess with <dididothat@urkelforce.com>",
-            subject: "Your friend invited you to play chess!",
-            html: Handlebars.templates['send-invite']({
+            from: "Play Chess with " + Meteor.User.getUsername(),
+            subject:"Your friend invited you to play chess!"
+        },{
+            name: 'send-invite',
+            data: {
                 token: id,
                 url: url,
                 urlWithToken: url + ("/" + id)
-            })
-        });
+            }
+        })
 
     },
     signupUser: function(user){
@@ -31,6 +33,15 @@ Meteor.methods({
         return isAlreadyUser(email);
     }
 });
+
+function sendEmail(email, template){
+    Email.send({
+        to: email.to,
+        from: email.from,
+        subject: email.subject,
+        html: Handlebars.templates[template.name](template.data)
+    });
+}
 
 function isAlreadyUser(email){
  return (Meteor.users.find({"emails.address": email}, {limit: 1}).count()>0);

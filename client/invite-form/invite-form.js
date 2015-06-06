@@ -1,6 +1,10 @@
 Template.InviteForm.events({
     'click .send-invite': function() {
-
+        var email = document.querySelectorAll("input[name='email']")[0].value;
+        var message = "Invite " + email + " to play chess.";
+        Session.set('invitation-text', message);
+    },
+    'click #invite': function(){
         var game = Template.currentData();
         var email = document.querySelectorAll("input[name='email']")[0].value;
 
@@ -10,16 +14,26 @@ Template.InviteForm.events({
             url: window.location.origin + "/signup"
         };
 
-        var confirmInvite = confirm("Are you sure you want to invite " + email + "?");
+        return Meteor.call('sendInvite', invitation, function(error) {
+            if (error) {
+                Session.set('invitation-error', true);
+                Session.set('invitation-success', false);
+            } else {
+                Session.set('invitation-error', false);
+                Session.set('invitation-success', true);
+            }
+        });
+    }
+});
 
-        if (confirmInvite) {
-            return Meteor.call('sendInvite', invitation, function(error) {
-                if (error) {
-                    return console.log("ERROR: ", error);
-                } else {
-                    return alert("Invite sent to " + invitation.email + "!");
-                }
-            });
-        }
+Template.InviteForm.helpers({
+    invitationText: function(){
+       return Session.get('invitation-text');
+    },
+    hasInvitationError: function(){
+        return Session.get('invitation-error');
+    },
+    hasInvitationSuccess: function(){
+        return Session.get('invitation-success');
     }
 });

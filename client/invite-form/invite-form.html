@@ -2,9 +2,36 @@
     <div class="center">
         <div>
             <div class="invitation-form">
-                <input class="form-control" type="email" name="email" placeholder="Invite user by email" />
-                <a class="btn btn-primary send-invite">Invite</a>
+
+                <div class="form-group">
+                    <label class="control-label" for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    {{#if hasInvitationError}}<span class="help-block">An an error has occured, please try again.</span>{{/if}}
+                    {{#if hasInvitationSuccess}}<span class="help-block">Invitation sent to! Please wait for your friend to respond.</span>{{/if}}
+                </div>
+                <a class="btn btn-primary send-invite"
+                   data-toggle="modal" data-target="#confirm-invite">Invite</a>
             </div>
         </div>
     </div>
+
+    <div id="confirm-invite" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Are you sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{ invitationText }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancel-invite" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="invite" type="button" class="btn btn-primary" data-dismiss="modal">Invite</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </template>
