@@ -1,7 +1,13 @@
 <template name="ToggleMenu">
     <li>
-        <i class="fa {{isOpen}}">
-            <a href="#">{{isOpenText}}</a>
-        </i>
+        {{#if isOpen}}
+            <i class="fa fa-times">
+                <a href="#">Close</a>
+            </i>
+        {{else}}
+            <i class="fa fa-bars">
+                <a href="#">Open</a>
+            </i>
+        {{/if}}
     </li>
 </template>
