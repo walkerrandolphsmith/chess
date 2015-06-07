@@ -1,22 +1,18 @@
 <template name="Leaderboard">
-    <ul id="leaderboard">
-        <li>
-          <span>Account</span>
-          <span>Win/Loss Ratio</span>
-        </li>
-        {{#each players}}
-          {{> Stat }}
-        {{/each}}
-    </ul>
-</template>
-
-<template name="Stat">
-    <li>
-        <span>
-            {{email}}
-        </span>
-        <span>
-            0.5
-        </span>
-    </li>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th data-field="player">Player</th>
+                    <th data-field="score">Score</th>
+                </tr>
+            </thead>
+            {{#each players}}
+                <tr>
+                    <td>{{email}}</td>
+                    <td>{{score}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
 </template>

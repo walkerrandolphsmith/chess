@@ -1,5 +1,8 @@
 Meteor.startup(function () {
 
+    Meteor.subscribe("currentUserData");
+
+
     Accounts.onLogin(function(){
         var userId = Meteor.userId();
 
