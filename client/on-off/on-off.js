@@ -13,16 +13,12 @@ Template.OnOff.events({
         var setting = Template.currentData().option;
         var updatedSetting = !settings[setting];
 
-        switch(setting){
-            case "showTurn":
-                Settings.update(settings._id, {$set: {showTurn: updatedSetting}});
-                break;
-            case "showMoves":
-                Settings.update(settings._id, {$set: {showMoves: updatedSetting}});
-                break;
-            case "showCoordinates":
-                Settings.update(settings._id, {$set: {showCoordinates: updatedSetting}});
-                break;
-        }
+        Meteor.call('updateSettings', {
+            id: settings._id,
+            setting: setting,
+            value: updatedSetting
+        }, function(error, data){
+
+        });
     }
 });

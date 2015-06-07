@@ -56,7 +56,13 @@ Template.Square.events({
                game.squares[index].isValid = "valid";
             });
 
-            Games.update(game._id, {$set: {squares: game.squares}});
+            Meteor.call('updateGame', {
+                userId: userId,
+                squares: game.squares,
+                isTurnChange: false
+            }, function(error, data){
+
+            });
         }
         else{
             //If the selected toPiece belongs to you
@@ -79,7 +85,13 @@ Template.Square.events({
                 });
 
                 //Update squares and return early
-                Games.update(game._id, {$set: {squares: game.squares}});
+                Meteor.call('updateGame', {
+                    userId: userId,
+                    squares: game.squares,
+                    isTurnChange: false
+                }, function(error, data){
+
+                });
                 return;
             }
             var fromPiece = fromSquare.piece;
@@ -113,7 +125,7 @@ Template.Square.events({
             //Set from square to false and movement to this square to invalid
             _.each(game.squares, function(square){
                 square.from = "";
-                square.isValid = "invalid"
+                square.isValid = "invalid";
 
                 var isMyPiece = false;
                 if(square.piece) {
@@ -126,12 +138,14 @@ Template.Square.events({
                 }
             });
 
-            //Determine which player's turn it will be next
-            var newCurrentPlayer = _.find(game.players, function(player){
-                return game.currentPlayer != player;
-            });
             //rotate turn to opponent and update squares
-            Games.update(game._id, {$set: {currentPlayer: newCurrentPlayer, squares: game.squares}});
+            Meteor.call('updateGame', {
+                userId: userId,
+                squares: game.squares,
+                isTurnChange: true
+            }, function(error, data){
+
+            });
         }
     }
 });

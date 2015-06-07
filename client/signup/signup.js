@@ -37,9 +37,13 @@ Template.SignupForm.events({
                     if (error) {
                         console.log("LOGIN ERROR", error);
                     }
-                    else {
-                        if (user.token)
-                            Games.update(user.token, {$push: {players: Meteor.userId()}});
+                    else if (user.token){
+                        Meteor.call('addPlayer', {
+                            gameId: user.token,
+                            playerId: Meteor.userId()
+                        }, function(error, data){
+
+                        });
                     }
                 });
             }

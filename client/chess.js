@@ -4,21 +4,14 @@ Meteor.startup(function () {
         var userId = Meteor.userId();
 
         if(!Settings.findOne({player: userId})){
+            Meteor.call('newSettings', userId, function(error, data){
 
-            Settings.insert({
-                player: userId,
-                showTurn: true,
-                showMoves: true,
-                showCoordinates: true,
-                showMenu: false
-            })
+            });
         }
 
         if(!Games.findOne({players: userId})){
-            Games.insert({
-                squares: Meteor.Game.generateSquares(),
-                players: [userId],
-                currentPlayer: userId
+            Meteor.call('newGame', userId, function(error, data){
+
             });
         }
     });
