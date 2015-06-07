@@ -11,12 +11,13 @@ Template.OnOff.events({
     "click": function(){
         var settings = Template.parentData();
         var setting = Template.currentData().option;
-        var updatedSetting = !settings[setting];
+
+        var s = {};
+        s[setting] = !settings[setting];
 
         Meteor.call('updateSettings', {
             id: settings._id,
-            setting: setting,
-            value: updatedSetting
+            setting: s
         }, function(error, data){
 
         });

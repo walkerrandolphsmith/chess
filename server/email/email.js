@@ -64,19 +64,7 @@ function resetGame(playerId){
 function updateSettings(settings){
     var id = settings.id;
     var setting = settings.setting;
-    var value = settings.value;
-
-    switch(setting){
-        case "showTurn":
-            Settings.update(id, {$set: {showTurn: value}});
-            break;
-        case "showMoves":
-            Settings.update(id, {$set: {showMoves: value}});
-            break;
-        case "showCoordinates":
-            Settings.update(id, {$set: {showCoordinates: value}});
-            break;
-    }
+    Settings.update(id, {$set: setting});
 }
 
 function updateGame(data){
