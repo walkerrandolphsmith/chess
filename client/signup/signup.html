@@ -26,7 +26,12 @@
         </div>
 
         {{#if token}}
-            <input class="form-control" type="text" name="token" placeholder="Game Invitation" value="{{token}}">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user-secret fa-fw"></i></span>
+                    <input class="form-control" type="text" name="token" placeholder="Game Invitation" value="{{token}}">
+                </div>
+            </div>
         {{/if}}
 
         <a class="btn btn-primary signup {{#if hasError}}disabled {{/if}}">
