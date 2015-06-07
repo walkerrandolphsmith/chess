@@ -1,12 +1,13 @@
 @color: white;
-@darker-color: red;
-@darkest-color: darkred;
+@alert: red;
+@darker-color: #ddd;
+@darkest-color: #ccc;
 
 @aside-height: ~"100vh - 5px";
 @aside-width: 420px;
 
 aside {
-  background-color: #ddd;
+  background-color: @darker-color;
   width: @aside-width;
   height: calc(@aside-height);
   position: absolute;
@@ -26,14 +27,15 @@ aside {
 
     li {
       margin: 0;
-      border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
+      border-top: 1px solid @darkest-color;
+      border-bottom: 1px solid @darkest-color;
       display: inline-block;
       width: 100%;
       padding-top: 1em;
       padding-bottom: 1em;
 
       &:first-child {
+        cursor: pointer;
         i {
 
           margin-right: 1em;
@@ -47,16 +49,18 @@ aside {
         }
       }
 
-      &:last-child:hover {
-        border: inset 1px;
-        box-sizing: border-box;
-        background-color: #ccc;
-        cursor: pointer;
+      &:last-child {
+        width:100%;
+        background: linear-gradient(to right, @darker-color 50%, @alert 50%);
+        background-size: 200% 100%;
+        background-position:left bottom;
+        transition:all 2s ease;
+      }
 
-        -webkit-animation: fill .5s steps(4) infinite;
-        -moz-animation:    fill .5s steps(4) infinite;
-        -ms-animation:     fill .5s steps(4) infinite;
-        animation:         fill .5s steps(4) infinite;
+      &:last-child:hover {
+        cursor: pointer;
+        color: white;
+        background-position:right bottom;
       }
 
       span{
@@ -69,70 +73,8 @@ aside {
       label{
         width: 100%;
         margin-bottom: 0px;
+        font-weight: normal;
       }
     }
   }
-
 }
-
-@-webkit-keyframes fill {
-  0% {
-    background-color: @color;
-  }
-  50% {
-    background-color: @darker-color;
-  }
-  100% {
-    background-color: @darkest-color;
-  }
-}
-
-@-moz-keyframes fill {
-  0% {
-    background-color: @color;
-  }
-  50% {
-    background-color: @darker-color;
-  }
-  100% {
-    background-color: @darkest-color;
-  }
-}
-
-@-ms-keyframes fill {
-  0% {
-    background-color: @color;
-  }
-  50% {
-    background-color: @darker-color;
-  }
-  100% {
-    background-color: @darkest-color;
-  }
-}
-
-@-o-keyframes fill {
-  0% {
-    background-color: @color;
-  }
-  50% {
-    background-color: @darker-color;
-  }
-  100% {
-    background-color: @darkest-color;
-  }
-}
-
-@keyframes fill {
-  0% {
-    background-color: @color;
-  }
-  50% {
-    background-color: @darker-color;
-  }
-  100% {
-    background-color: @darkest-color;
-  }
-}
-
-
