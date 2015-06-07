@@ -5,7 +5,15 @@
 @tile: 42px;
 
 #board {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
+
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
     flex-flow: row wrap;
     width: 336px;
     height: 336px;
