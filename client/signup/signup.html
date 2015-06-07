@@ -9,16 +9,20 @@
 <template name="SignupForm">
     <div class="user-form">
 
-        <div class="form-group {{#if hasErrorEmail}} has-error {{/if}}">
-            <label class="control-label" for="email">Username</label>
-            <input type="email" class="form-control" id="email" name="email">
+        <div class="form-group">
             {{#if hasErrorEmail}}<span class="help-block">User has already signed up.</span>{{/if}}
+            <div class="input-group {{#if hasErrorEmail}} has-error {{/if}}">
+                <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email:">
+            </div>
         </div>
 
-        <div class="form-group {{#if hasErrorPassword}} has-error {{/if}}">
-            <label class="control-label" for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
+        <div class="form-group">
             {{#if hasErrorPassword}}<span class="help-block">Password is incorrect.</span>{{/if}}
+            <div class="input-group {{#if hasErrorPassword}} has-error {{/if}}">
+                <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password:">
+            </div>
         </div>
 
         {{#if token}}

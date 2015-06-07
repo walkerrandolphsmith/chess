@@ -3,11 +3,11 @@
         <div>
             <div class="invitation-form">
 
-                <div class="form-group">
-                    <label class="control-label" for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email:">
                     {{#if hasInvitationError}}<span class="help-block">An an error has occured, please try again.</span>{{/if}}
-                    {{#if hasInvitationSuccess}}<span class="help-block">Invitation sent to! Please wait for your friend to respond.</span>{{/if}}
+                    {{#if hasInvitationSuccess}}<span class="help-block">Invitation sent! Please wait for your friend to respond.</span>{{/if}}
                 </div>
                 <a class="btn btn-primary send-invite"
                    data-toggle="modal" data-target="#confirm-invite">Invite</a>
