@@ -18,5 +18,6 @@ Router.onBeforeAction(checkUserLoggedIn, {
 });
 
 Router.onBeforeAction(userAuthenticated, {
+    only: ['index', 'signup', 'signup/:token', 'signin', "signin/:token"]
     only: ['index', 'signup', 'signup/:token', 'signin']
 });

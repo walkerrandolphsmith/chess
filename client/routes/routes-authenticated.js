@@ -1,15 +1,20 @@
-Router.route('/leaderboard', function() {
-    this.render('Leaderboard', {
-        data: {
-
-        }
-    });
+Router.route('play',{
+    path: '/play',
+    template: 'Play',
+    onBeforeAction: function() {
+        Session.set('currentRoute', 'play');
+        Meteor.subscribe("currentGameData", Meteor.userId());
+        Meteor.subscribe("currentSettingsData", Meteor.userId());
+        this.next();
+    }
 });
 
-Router.route('/play',function () {
-    this.render('Play', {
-        data: {
-
-        }
-    });
+Router.route('leaderboard',{
+    path: '/leaderboard',
+    template: 'Leaderboard',
+    onBeforeAction: function() {
+        Session.set('currentRoute', 'leaderboard');
+        Meteor.subscribe("currentSettingsData", Meteor.userId());
+        this.next();
+    }
 });

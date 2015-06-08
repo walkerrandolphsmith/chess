@@ -17,8 +17,5 @@ Meteor.startup(function () {
 
             });
         }
-
-        Meteor.subscribe("currentGameData", userId);
-        Meteor.subscribe("currentSettingsData", userId);
     });
 });
