@@ -9,6 +9,7 @@ Meteor.methods({
     newGame: newGame,
     newSettings: newSettings,
     resetGame: resetGame,
+    leaveGame: leaveGame,
     updateSettings: updateSettings,
     updateGame: updateGame,
     updateScore: updateScore
@@ -129,6 +130,17 @@ function resetGame(playerId){
         squares: Meteor.Game.generateSquares(),
         currentPlayer: game.players[0]
     }});
+}
+
+function leaveGame(playerId){
+    var game = Games.findOne({players: playerId});
+    var opponent = _.find(game.players, function(player){
+        return playerId != player;
+    });
+
+    Games.remove(game._id);
+    newGame(playerId);
+    newGame(opponent);
 }
 
 function updateSettings(settings){

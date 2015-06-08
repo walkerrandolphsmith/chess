@@ -8,6 +8,12 @@ Template.Aside.helpers({
 });
 
 Template.Aside.events({
+    "click #leave": function(){
+        var userId = Meteor.userId();
+        Meteor.call('leaveGame', userId, function(error, data){
+
+        });
+    },
     "click #reset": function(){
         var userId = Meteor.userId();
         Meteor.call('resetGame', userId, function(error, data){
