@@ -19,9 +19,27 @@
                     </label>
                 </li>
                 <li class="reset">
-                    <span>Reset</span>
+                    <span data-toggle="modal" data-target="#confirm-reset">Reset</span>
                 </li>
             </ul>
             {{/with}}
         </aside>
+
+        <div id="confirm-reset" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Are you sure?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to reset the game?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="cancel-reset" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button id="reset" type="button" class="btn btn-primary" data-dismiss="modal">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </template>

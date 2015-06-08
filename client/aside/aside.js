@@ -8,7 +8,7 @@ Template.Aside.helpers({
 });
 
 Template.Aside.events({
-    "click .reset": function(){
+    "click #reset": function(){
         var userId = Meteor.userId();
         Meteor.call('resetGame', userId, function(error, data){
 
