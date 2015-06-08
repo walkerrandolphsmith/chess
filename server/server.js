@@ -23,6 +23,14 @@ Meteor.publish("currentUserData", function() {
     });
 });
 
+Meteor.publish('currentGameData', function(userId){
+    return Games.find({players: userId});
+});
+
+Meteor.publish('currentSettingsData', function(userId){
+    return Settings.find({player: userId});
+});
+
 Accounts.onCreateUser(function(option, user){
     user['score'] = 0;
     return user;
