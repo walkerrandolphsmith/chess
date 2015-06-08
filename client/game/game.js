@@ -45,15 +45,15 @@ Template.Square.events({
             if(!canSelectFromSquare(p, game))
                 return;
             //Set the selected piece to the from piece
-            game.squares[square.index].from = "selected";
+            game.squares[square.index].from = true;
 
             //Determine which squares are valid selections
             var indicies = getValidMoves(square, game.squares);
             _.each(game.squares, function(square){
-               square.isValid = "invalid";
+               square.isValid = false;
             });
             _.each(indicies, function(index){
-               game.squares[index].isValid = "valid";
+               game.squares[index].isValid = true;
             });
 
             Meteor.call('updateGame', {
@@ -72,16 +72,16 @@ Template.Square.events({
                    square.from = "";
                 });
                 //set your fromPiece to the selected square
-                game.squares[square.index].from = "selected";
+                game.squares[square.index].from = true;
 
                 //Determine which squares are valid selections
                 //based on the newly selected square
                 indicies = getValidMoves(square, game.squares);
                 _.each(game.squares, function(square){
-                    square.isValid = "invalid";
+                    square.isValid = false;
                 });
                 _.each(indicies, function(index){
-                    game.squares[index].isValid = "valid";
+                    game.squares[index].isValid = true;
                 });
 
                 //Update squares and return early
@@ -97,7 +97,7 @@ Template.Square.events({
             var fromPiece = fromSquare.piece;
 
             var validSquares = _.filter(game.squares, function(square){
-                return square.isValid === "valid";
+                return square.isValid;
             });
 
             indicies = _.map(validSquares, function(square){
@@ -124,8 +124,8 @@ Template.Square.events({
             game.squares[square.index].piece = fromPiece;
             //Set from square to false and movement to this square to invalid
             _.each(game.squares, function(square){
-                square.from = "";
-                square.isValid = "invalid";
+                square.from = false;
+                square.isValid = false;
 
                 var isMyPiece = false;
                 if(square.piece) {

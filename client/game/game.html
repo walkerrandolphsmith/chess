@@ -17,10 +17,10 @@
 <template name="Square">
     <div id="{{position.row}}{{position.column}}"
          class="square
-             {{color}}
+             {{#if isDark}}dark{{else}}light{{/if}}
              {{#unless piece}}empty{{/unless}}
-             {{from}}
-             {{isValid}}
+             {{#if from}}selected{{/if}}
+             {{#if isValid}}valid{{/if}}
              {{my}}"
          data-row="{{position.row}}"
          data-column="{{position.column}}">
