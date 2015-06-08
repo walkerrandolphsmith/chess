@@ -1,5 +1,12 @@
 //Remove all users
 //Meteor.users.remove({})
+//Settings.remove({})
+
+Meteor.users.deny({
+    update: function() {
+        return true;
+    }
+});
 
 Meteor.methods({
     signupUser: signupUser,
