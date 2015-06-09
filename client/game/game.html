@@ -37,11 +37,10 @@
          class="square
              {{#if isDark}}dark{{else}}light{{/if}}
              {{#if from}}selected{{/if}}
-             {{#if isValid}}valid{{/if}}
-             {{my}}"
+             {{#if isValid}}valid{{/if}}"
          data-row="{{position.row}}"
          data-column="{{position.column}}">
-        <span>
+        <span class="{{isMyPiece}}">
             {{#if piece}}
                 {{{piece.code}}}
             {{else}}

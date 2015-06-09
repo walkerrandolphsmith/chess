@@ -54,16 +54,18 @@
             color: red;
         }
 
-        &.my {
-            cursor: pointer;
-        }
+        span {
+            display: block;
 
-        &.their {
+            &.my {
+                cursor: pointer;
+            }
+            &.their {
 
-        }
-
-        &:not(.my):not(.their){
-            color: transparent;
+            }
+            &:not(.my):not(.their){
+                color: transparent;
+            }
         }
     }
 }

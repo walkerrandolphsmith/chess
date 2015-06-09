@@ -32,6 +32,31 @@ Template.Board.helpers({
     showCoordinates: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
         return settings.showCoordinates;
+});
+
+Template.Square.helpers({
+    isMyPiece: function(){
+        var userId = Meteor.userId();
+        var g = Template.parentData();
+        var s = Template.currentData();
+
+        var p = s.piece;
+
+        var result = "";
+        if(p){
+
+            var isMine = (
+                   (p.id.indexOf('w') === 0 && g.currentPlayer === g.players[0] && g.currentPlayer === userId)
+                || (p.id.indexOf('b') === 0 && g.currentPlayer !== g.players[0] && g.currentPlayer === userId)
+            );
+
+            if(isMine){
+                result = "my";
+            }else{
+                result = "their";
+            }
+        }
+        return result;
     }
 });
 
@@ -141,16 +166,6 @@ Template.Square.events({
             _.each(game.squares, function(square){
                 square.from = false;
                 square.isValid = false;
-
-                var isMyPiece = false;
-                if(square.piece) {
-                    isMyPiece = canSelectFromSquare(square.piece, game);
-                    //Set to the opposite value since the turn is about to be rotated.
-                    (isMyPiece) ? square.my = "their" : square.my = "my";
-                }
-                else {
-                    square.my = ""
-                }
             });
 
             //rotate turn to opponent and update squares
