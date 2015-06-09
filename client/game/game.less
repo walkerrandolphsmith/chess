@@ -18,6 +18,9 @@
     width: 336px;
     height: 336px;
 
+    transform: rotate(0deg);
+    transition: all 2.5s;
+
     .square {
         width: @tile;
         height: @tile;
@@ -133,5 +136,48 @@
             color: black;
             font-size: 1.2em;
         }
+    }
+}
+
+#board.rotated {
+    transform: rotate(180deg);
+
+    .square {
+        span.my {
+            transform: rotate(180deg);
+        }
+
+        &:nth-child(8n):before {
+            color: transparent;
+        }
+
+        &[id^="1"]:after {
+            color: transparent;
+        }
+
+        &:nth-child(8n + 8) {
+
+            &:before {
+                content: attr(data-row);
+                position: absolute;
+                height: @tile;
+                width: @tile;
+                margin-left: @tile;
+                color: black;
+                transform: rotate(180deg);
+            }
+        }
+
+        &[id^="8"]:after {
+            content: attr(data-column);
+            position: absolute;
+            top: -42px;
+            margin-left: -24px;
+            color: black;
+            font-size: 1.2em;
+            transform: rotate(180deg);
+
+        }
+
     }
 }

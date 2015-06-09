@@ -7,7 +7,8 @@
          class="{{#if currentTurn}}light{{else}}dark{{/if}}
              {{#if showTurn}} showTurn {{/if}}
              {{#if showMoves}} showMoves {{/if}}
-             {{#if showCoordinates}} showCoordinates {{/if}}">
+             {{#if showCoordinates}} showCoordinates {{/if}}
+             {{#if isRotated}} rotated {{/if}}">
       {{#each squares}}
         {{> Square}}
       {{/each}}

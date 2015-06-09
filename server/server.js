@@ -129,7 +129,8 @@ function newSettings(userId){
         player: userId,
         showTurn: true,
         showMoves: true,
-        showCoordinates: true
+        showCoordinates: true,
+        isRotated: false
     })
 }
 

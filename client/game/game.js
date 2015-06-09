@@ -32,6 +32,11 @@ Template.Board.helpers({
     showCoordinates: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
         return settings.showCoordinates;
+    },
+    isRotated: function(){
+        var settings = Settings.findOne({player: Meteor.userId()});
+        return settings.isRotated;
+    }
 });
 
 Template.Square.helpers({
