@@ -92,6 +92,18 @@
             }
         }
     }
+
+    &.showMoves.light {
+        div[id^="1"].valid {
+            background: linear-gradient(to bottom, #12aafc, @showTurn);
+        }
+    }
+
+    &.showMoves.dark{
+        div[id^="8"].valid {
+            background: linear-gradient(to bottom, @showTurn, #12aafc);
+        }
+    }
 }
 
 #board.showMoves {
