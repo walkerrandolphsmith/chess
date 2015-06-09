@@ -1,5 +1,7 @@
 <template name="Game">
     {{> Board}}
+
+
 </template>
 
 <template name="Board">
@@ -11,6 +13,24 @@
       {{#each squares}}
         {{> Square}}
       {{/each}}
+    </div>
+
+    <div id="checkmate" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Checkmate</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to start a new game with your opponent or leave?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="checkmate-leave" type="button" class="btn btn-default" data-dismiss="modal">Leave</button>
+                    <button id="checkmate-reset" type="button" class="btn btn-primary" data-dismiss="modal">Start</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

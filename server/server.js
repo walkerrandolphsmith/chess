@@ -172,6 +172,7 @@ function updateGame(data){
     }else{
         Games.update(game._id, {$set: {squares: squares}});
     }
+    return Games.findOne({players: userId});
 }
 
 function updateScore(userId, score){

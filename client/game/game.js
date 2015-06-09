@@ -1,3 +1,18 @@
+Template.Board.events({
+    "click #checkmate-reset": function(){
+        var userId = Meteor.userId();
+        Meteor.call('resetGame', userId, function(error, data){
+
+        });
+    },
+    "click #checkmate-leave": function(){
+        var userId = Meteor.userId();
+        Meteor.call('leaveGame', userId, function(error, data){
+
+        });
+    }
+});
+
 Template.Board.helpers({
     squares: function(){
         return Games.findOne({players: Meteor.userId()}).squares;
@@ -144,7 +159,11 @@ Template.Square.events({
                 squares: game.squares,
                 isTurnChange: true
             }, function(error, data){
-
+                var owner = data.squares[square.index].piece.id.charAt(0);
+                var opponent = (owner === 'w') ? 'b' : 'w';
+                if(isCheckCondition(opponent, data.squares)){
+                    $('#checkmate').modal();
+                }
             });
         }
     }
@@ -408,7 +427,9 @@ function movesThatCauseCheck(moves, square ,squares){
         squares[index].piece = originalPiece;
         squares[originalIndex].piece = null;
 
-        var isCheck = isCheckCondition(squares[index], squares);
+
+        var owner = squares[index].piece.id.charAt(0);
+        var isCheck = isCheckCondition(owner, squares);
 
         squares[originalIndex].piece = originalPiece;
         squares[index].piece = toSquarePiece;
@@ -419,11 +440,10 @@ function movesThatCauseCheck(moves, square ,squares){
     return movesToRemove;
 }
 
-function isCheckCondition(square, squares){
-    var isCheck = false;
 
-    var owner = square.piece.id.charAt(0);
-    var opponent = (owner === 'w')? 'b' : 'w';
+
+function isCheckCondition(owner, squares){
+    var isCheck = false;
 
     var king = _.find(squares, function(square){
         if(square.piece)
