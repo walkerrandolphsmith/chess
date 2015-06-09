@@ -19,7 +19,7 @@ Template.Board.helpers({
     },
     currentTurn: function(){
         var game = Games.findOne({players: Meteor.userId()});
-        return (game.currentPlayer === game.players[0])? "light" : "dark";
+        return (game.currentPlayer === game.players[0]);
     },
     showTurn: function(){
         var settings = Settings.findOne({player: Meteor.userId()});

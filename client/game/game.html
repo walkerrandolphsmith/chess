@@ -1,12 +1,10 @@
 <template name="Game">
     {{> Board}}
-
-
 </template>
 
 <template name="Board">
     <div id="board"
-         class="{{currentTurn}}
+         class="{{#if currentTurn}}light{{else}}dark{{/if}}
              {{#if showTurn}} showTurn {{/if}}
              {{#if showMoves}} showMoves {{/if}}
              {{#if showCoordinates}} showCoordinates {{/if}}">
