@@ -40,7 +40,10 @@ Meteor.publish('currentSettingsData', function(userId){
 });
 
 Accounts.onCreateUser(function(option, user){
-    user['score'] = 0;
+    user['score'] = {
+        wins: 0,
+        losses: 0
+    };
     return user;
 });
 
@@ -175,6 +178,19 @@ function updateGame(data){
     return Games.findOne({players: userId});
 }
 
-function updateScore(userId, score){
-    Meteor.users.update(userId, {$set: {score: score}})
+function updateScore(winnerId){
+    var game = Games.findOne({players: winnerId});
+
+    var loserId = _.find(game.players, function(player){
+        return winnerId !== player;
+    });
+
+    var winner = Meteor.users.findOne({_id: winnerId});
+    var loser = Meteor.users.findOne({_id: loserId});
+
+    var wins = winner.score.wins + 1;
+    var losses = loser.score.losses + 1;
+
+    Meteor.users.update(winnerId, {$set: {"score.wins": wins}});
+    Meteor.users.update(loserId, {$set: {"score.losses": losses}});
 }

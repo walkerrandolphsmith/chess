@@ -162,6 +162,9 @@ Template.Square.events({
                 var owner = data.squares[square.index].piece.id.charAt(0);
                 var opponent = (owner === 'w') ? 'b' : 'w';
                 if(isCheckCondition(opponent, data.squares)){
+                    Meteor.call('updateScore', userId, function(error,data){
+
+                    });
                     $('#checkmate').modal();
                 }
             });

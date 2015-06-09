@@ -1,18 +1,24 @@
 <template name="Leaderboard">
     <div class="table-responsive">
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th data-field="player">Player</th>
+                    <th data-field="score">Wins</th>
+                    <th data-field="score">Losses</th>
                     <th data-field="score">Score</th>
                 </tr>
             </thead>
+            <tbody>
             {{#each players}}
                 <tr>
                     <td>{{email}}</td>
-                    <td>{{score}}</td>
+                    <td>{{wins}}</td>
+                    <td>{{losses}}</td>
+                    <td>{{ratio}}</td>
                 </tr>
             {{/each}}
+            </tbody>
         </table>
     </div>
 </template>
