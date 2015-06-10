@@ -60,14 +60,14 @@
         span {
             display: block;
 
-            &.my {
+            &.empty{
+                color: transparent;
+            }
+            &.can-select {
                 cursor: pointer;
             }
-            &.their {
-
-            }
-            &:not(.my):not(.their){
-                color: transparent;
+            &.player-two{
+                transform: rotate(180deg);
             }
         }
     }
@@ -128,6 +128,7 @@
                 width: @tile;
                 margin-left: @tile;
                 color: black;
+                text-transform: uppercase;
             }
         }
 
@@ -135,6 +136,7 @@
             content: attr(data-column);
             color: black;
             font-size: 1.2em;
+            text-transform: uppercase;
         }
     }
 }
@@ -142,11 +144,7 @@
 #board.rotated {
     transform: rotate(180deg);
 
-    .square {
-        span.my {
-            transform: rotate(180deg);
-        }
-
+    &.showCoordinates .square {
         &:nth-child(8n):before {
             color: transparent;
         }
@@ -156,7 +154,6 @@
         }
 
         &:nth-child(8n + 8) {
-
             &:before {
                 content: attr(data-row);
                 position: absolute;
@@ -164,6 +161,7 @@
                 width: @tile;
                 margin-left: @tile;
                 color: black;
+                text-transform: uppercase;
                 transform: rotate(180deg);
             }
         }
@@ -171,13 +169,13 @@
         &[id^="8"]:after {
             content: attr(data-column);
             position: absolute;
-            top: -42px;
-            margin-left: -24px;
+            top: -@tile;
+            margin-top: -10px;
+            margin-left: -10px;
             color: black;
             font-size: 1.2em;
+            text-transform: uppercase;
             transform: rotate(180deg);
-
         }
-
     }
 }

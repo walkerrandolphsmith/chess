@@ -41,7 +41,10 @@
              {{#if isValid}}valid{{/if}}"
          data-row="{{position.row}}"
          data-column="{{position.column}}">
-        <span class="{{isMyPiece}}">
+        <span class="{{#if empty}}empty{{/if}}
+            {{#if selectable}}can-select{{/if}}
+            {{#if isDarkPiece}}player-two{{/if}}">
+
             {{#if piece}}
                 {{{piece.code}}}
             {{else}}

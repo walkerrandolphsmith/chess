@@ -40,28 +40,27 @@ Template.Board.helpers({
 });
 
 Template.Square.helpers({
-    isMyPiece: function(){
+    empty: function(){
+        var s = Template.currentData();
+        var p = s.piece;
+        return !p;
+    },
+    selectable: function(){
         var userId = Meteor.userId();
         var g = Template.parentData();
         var s = Template.currentData();
-
         var p = s.piece;
 
-        var result = "";
-        if(p){
-
-            var isMine = (
+        return (p && (
                    (p.id.indexOf('w') === 0 && g.currentPlayer === g.players[0] && g.currentPlayer === userId)
                 || (p.id.indexOf('b') === 0 && g.currentPlayer !== g.players[0] && g.currentPlayer === userId)
-            );
+            ));
 
-            if(isMine){
-                result = "my";
-            }else{
-                result = "their";
-            }
-        }
-        return result;
+    },
+    isDarkPiece: function(){
+        var s = Template.currentData();
+        var p = s.piece;
+        return (p && p.id.indexOf('b') === 0);
     }
 });
 
