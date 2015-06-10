@@ -23,6 +23,11 @@
                         {{> OnOff option="isRotated"}}
                     </label>
                 </li>
+                <li class="board-color">
+                    {{> Dropdown id="board-color" title="Board color"
+                        categories='["green", "black", "red"]'
+                    }}
+                </li>
                 <li class="leave" data-toggle="modal" data-target="#confirm-leave">
                     <span >Leave</span>
                 </li>
@@ -42,5 +47,4 @@
             buttonCancel="cancel-leave" buttonAccept="leave"
             buttonCancelLabel="Cancel" buttonAcceptLabel="Leave"
         }}
-
 </template>
