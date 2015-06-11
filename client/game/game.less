@@ -1,6 +1,7 @@
 @dark: #64494D;
 @light: #C8B08F;
 @showTurn: green;
+@showMoves: blue;
 
 @tile: 42px;
 
@@ -100,20 +101,20 @@
 
     &.showMoves.light {
         div[id^="1"].valid {
-            background: linear-gradient(to bottom, #12aafc, @showTurn);
+            background: linear-gradient(to bottom, @showMoves, @showTurn);
         }
     }
 
     &.showMoves.dark{
         div[id^="8"].valid {
-            background: linear-gradient(to bottom, @showTurn, #12aafc);
+            background: linear-gradient(to bottom, @showTurn, @showMoves);
         }
     }
 }
 
 #board.showMoves {
     .square.valid {
-        background-color: #12aafc !important;
+        background-color: @showMoves !important;
     }
 }
 
@@ -176,6 +177,50 @@
             font-size: 1.2em;
             text-transform: uppercase;
             transform: rotate(180deg);
+        }
+    }
+}
+
+#board.black-white{
+    .square {
+        &.light{
+            background-color: white;
+
+            span:not(.empty){
+                color: black;
+            }
+        }
+        &.dark {
+            background-color: black;
+        }
+    }
+
+    &.showTurn {
+        &.light .square[id^="1"] {
+            &.light {
+                background: linear-gradient(to bottom, white, @showTurn);
+            }
+
+            &.dark {
+                background: linear-gradient(to bottom, black, @showTurn);
+            }
+
+            &.valid {
+                background: linear-gradient(to bottom, @showMoves, @showTurn);
+            }
+        }
+
+        &.dark .square[id^="8"] {
+            &.light {
+                background: linear-gradient(to bottom, @showTurn, white);
+            }
+
+            &.dark {
+                background: linear-gradient(to bottom, @showTurn, black);
+            }
+            &.valid {
+                background: linear-gradient(to bottom, @showTurn, @showMoves);
+            }
         }
     }
 }

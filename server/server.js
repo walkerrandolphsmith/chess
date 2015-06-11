@@ -130,7 +130,8 @@ function newSettings(userId){
         showTurn: true,
         showMoves: true,
         showCoordinates: true,
-        isRotated: false
+        isRotated: false,
+        boardColor: 0
     })
 }
 

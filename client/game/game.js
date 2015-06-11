@@ -36,6 +36,26 @@ Template.Board.helpers({
     isRotated: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
         return settings.isRotated;
+    },
+    boardColor: function(){
+        var settings = Settings.findOne({player: Meteor.userId()});
+        var boardColor = settings.boardColor;
+        var className = "default";
+        switch(boardColor){
+            case 0:
+                className = "default";
+                break;
+            case 1:
+                className = "black-white";
+                break;
+            case 2:
+                className = "green-red";
+                break;
+            default:
+                className = "default";
+                break;
+        }
+        return className;
     }
 });
 

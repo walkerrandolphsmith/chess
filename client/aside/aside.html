@@ -24,15 +24,7 @@
                     </label>
                 </li>
                 {{> Dropdown id="board-color" title="Board Color"
-                    categories='["green", "black", "red"]'
-                }}
-
-                {{> Dropdown id="background-color" title="Background Color"
-                    categories='["orange", "peek", "gray"]'
-                }}
-
-                {{> Dropdown id="piece-set" title="Piece Set"
-                    categories='["monsters", "dragons", "knights"]'
+                    setting="boardColor" options='["green", "black", "red"]'
                 }}
                 <li class="leave" data-toggle="modal" data-target="#confirm-leave">
                     <span >Leave</span>
