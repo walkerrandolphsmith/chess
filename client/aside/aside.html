@@ -23,11 +23,17 @@
                         {{> OnOff option="isRotated"}}
                     </label>
                 </li>
-                <li class="board-color">
-                    {{> Dropdown id="board-color" title="Board color"
-                        categories='["green", "black", "red"]'
-                    }}
-                </li>
+                {{> Dropdown id="board-color" title="Board Color"
+                    categories='["green", "black", "red"]'
+                }}
+
+                {{> Dropdown id="background-color" title="Background Color"
+                    categories='["orange", "peek", "gray"]'
+                }}
+
+                {{> Dropdown id="piece-set" title="Piece Set"
+                    categories='["monsters", "dragons", "knights"]'
+                }}
                 <li class="leave" data-toggle="modal" data-target="#confirm-leave">
                     <span >Leave</span>
                 </li>
