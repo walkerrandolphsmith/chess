@@ -49,7 +49,7 @@ Template.Board.helpers({
                 className = "black-white";
                 break;
             case 2:
-                className = "green-red";
+                className = "red-white";
                 break;
             default:
                 className = "default";
