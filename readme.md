@@ -1,3 +1,3 @@
 # Chess
 
-Classic game of chess
+Classic game of chess.
