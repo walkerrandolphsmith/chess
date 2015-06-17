@@ -1,6 +1,5 @@
-//Remove all users
-//Meteor.users.remove({})
-//Settings.remove({})
+/*Meteor.users.remove({})
+Settings.remove({})*/
 
 Meteor.users.deny({
     update: function() {
@@ -98,6 +97,8 @@ function addPlayer(data) {
     if (games.length > 0) {
         games.forEach(function (game) {
             if (game.players.length <= 1) {
+                //The game is the one you're being invited to,do nothing
+                if(game._id === gameId) return;
                 //Game only contains the invited member delete the game.
                 Games.remove({_id: game._id})
             } else {
