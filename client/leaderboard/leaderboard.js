@@ -4,6 +4,14 @@ Template.Leaderboard.helpers({
         if(!players)
             return;
         return players.map(function(player){
+            if(!player.score){
+                return {
+                    email: "",
+                    wins: "",
+                    losses: "",
+                    ratio: ""
+                }
+            }
             var denominator = player.score.wins + player.score.losses;
             return {
                 email: (player.emails)? player.emails[0].address : player._id,
