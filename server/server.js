@@ -103,18 +103,11 @@ function addPlayer(data) {
                 Games.remove({_id: game._id})
             } else {
                 //Remove the invited member from a previous game.
-                Games.update(game._id, {$pull: {players: playerId}})
+                Games.update({_id: game._id}, {$pull: {players: playerId}})
             }
         });
     }
-    Games.update(gameId, {
-        $push: {
-            players: {
-                $each: [playerId],
-                $position: 1
-            }
-        }
-    });
+    Games.update({ _id: gameId }, { $push: { players: playerId } });
 }
 
 function newGame(userId){
