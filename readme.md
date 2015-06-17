@@ -1,3 +1,3 @@
 # Chess
 
-Classic game of chess.
+Play classic game of chess [here](playchess.meteor.com).
