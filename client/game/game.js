@@ -23,37 +23,39 @@ Template.Board.helpers({
     },
     showTurn: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
-        return settings.showTurn;
+        return settings && settings.showTurn;
     },
     showMoves: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
-        return settings.showMoves;
+        return settings && settings.showMoves;
     },
     showCoordinates: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
-        return settings.showCoordinates;
+        return settings && settings.showCoordinates;
     },
     isRotated: function(){
         var settings = Settings.findOne({player: Meteor.userId()});
-        return settings.isRotated;
+        return settings && settings.isRotated;
     },
-    boardColor: function(){
+    boardColor: function() {
         var settings = Settings.findOne({player: Meteor.userId()});
-        var boardColor = settings.boardColor;
         var className = "default";
-        switch(boardColor){
-            case 0:
-                className = "default";
-                break;
-            case 1:
-                className = "black-white";
-                break;
-            case 2:
-                className = "red-white";
-                break;
-            default:
-                className = "default";
-                break;
+        if (settings) {
+            var boardColor = settings.boardColor;
+            switch (boardColor) {
+                case 0:
+                    className = "default";
+                    break;
+                case 1:
+                    className = "black-white";
+                    break;
+                case 2:
+                    className = "red-white";
+                    break;
+                default:
+                    className = "default";
+                    break;
+            }
         }
         return className;
     }
