@@ -8,5 +8,8 @@ Template.ToggleMenu.events({
 Template.ToggleMenu.helpers({
     isOpen: function(){
       return Session.get('menuOpen');
+    },
+    isLoggedIn: function(){
+      return Meteor.userId();
     }
 });
