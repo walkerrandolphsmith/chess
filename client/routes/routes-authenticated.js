@@ -18,3 +18,12 @@ Router.route('leaderboard',{
         this.next();
     }
 });
+
+Router.route('signout', {
+  path: '/signout',
+  template: 'Signout',
+  onBeforeAction: function() {
+      Meteor.subscribe("currentSettingsData", Meteor.userId());
+      this.next();
+  }
+});

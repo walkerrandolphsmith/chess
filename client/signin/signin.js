@@ -1,10 +1,4 @@
 Template.Signin.helpers({
-    isLoggedIn: function(){
-        return Meteor.userId();
-    }
-});
-
-Template.SigninForm.helpers({
     token: function(){
         return Session.get('invitation');
     },
@@ -19,7 +13,7 @@ Template.SigninForm.helpers({
     }
 });
 
-Template.SigninForm.events({
+Template.Signin.events({
     "keyup input": function(e){
         var user = Meteor.User.getUser();
         if(user.email.length === 0) {
@@ -48,6 +42,3 @@ Template.SigninForm.events({
         });
     }
 });
-
-
-

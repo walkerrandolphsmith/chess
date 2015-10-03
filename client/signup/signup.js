@@ -1,10 +1,4 @@
 Template.Signup.helpers({
-    isLoggedIn: function(){
-        return Meteor.userId();
-    }
-});
-
-Template.SignupForm.helpers({
     token: function(){
         return Session.get('invitation');
     },
@@ -19,7 +13,7 @@ Template.SignupForm.helpers({
     }
 });
 
-Template.SignupForm.events({
+Template.Signup.events({
     "keyup input": function(){
         var user = Meteor.User.getUser();
         Meteor.call('isAlreadyUser', user.email, function(error, data) {
@@ -50,6 +44,3 @@ Template.SignupForm.events({
         })
     }
 });
-
-
-

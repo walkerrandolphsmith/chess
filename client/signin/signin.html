@@ -1,43 +1,35 @@
 <template name="Signin">
-    {{#if isLoggedIn}}
-        {{> Signout }}
-    {{else}}
-        {{> SigninForm }}
-    {{/if}}
-</template>
+  <div class="user-form">
 
-<template name="SigninForm">
-    <div class="user-form">
+      <div class="form-group">
+          {{#if hasErrorEmail}}<span class="help-block">Account has not been created.</span>{{/if}}
+          <div class="input-group {{#if hasErrorEmail}} has-error {{/if}}">
+              <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Email:">
+          </div>
+      </div>
 
-        <div class="form-group">
-            {{#if hasErrorEmail}}<span class="help-block">Account has not been created.</span>{{/if}}
-            <div class="input-group {{#if hasErrorEmail}} has-error {{/if}}">
-                <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email:">
-            </div>
-        </div>
+      <div class="form-group">
+          {{#if hasErrorPassword}}<span class="help-block">Password is incorrect.</span>{{/if}}
+          <div class="input-group {{#if hasErrorPassword}} has-error {{/if}}">
+              <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password:">
+          </div>
+      </div>
 
-        <div class="form-group">
-            {{#if hasErrorPassword}}<span class="help-block">Password is incorrect.</span>{{/if}}
-            <div class="input-group {{#if hasErrorPassword}} has-error {{/if}}">
-                <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password:">
-            </div>
-        </div>
+      {{#if token}}
+      <div class="form-group">
+          <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user-secret fa-fw"></i></span>
+              <input class="form-control" type="text" name="token" placeholder="Game Invitation" value="{{token}}">
+          </div>
+      </div>
+      {{/if}}
 
-        {{#if token}}
-        <div class="form-group">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user-secret fa-fw"></i></span>
-                <input class="form-control" type="text" name="token" placeholder="Game Invitation" value="{{token}}">
-            </div>
-        </div>
-        {{/if}}
+      <a class="btn btn-primary signin {{#if hasError}}disabled {{/if}}">
+          Signin
+      </a>
 
-        <a class="btn btn-primary signin {{#if hasError}}disabled {{/if}}">
-            Signin
-        </a>
-
-        <a class="other" href="/signup">Signup</a>
-    </div>
+      <a class="other" href="/signup">Signup</a>
+  </div>
 </template>
