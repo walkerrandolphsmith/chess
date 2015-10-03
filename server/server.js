@@ -1,5 +1,6 @@
-/*Meteor.users.remove({})
-Settings.remove({})*/
+/*Meteor.users.remove({});
+Settings.remove({});
+Games.remove({});*/
 
 Meteor.users.deny({
     update: function() {
