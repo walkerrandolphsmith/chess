@@ -73,11 +73,14 @@ Template.Square.helpers({
         var s = Template.currentData();
         var p = s.piece;
 
-        return (p && (
-                   (p.id.indexOf('w') === 0 && g.currentPlayer === g.players[0] && g.currentPlayer === userId)
-                || (p.id.indexOf('b') === 0 && g.currentPlayer !== g.players[0] && g.currentPlayer === userId)
-            ));
+        var canSelect = (
+            p && (
+                   (isWhite(p) && isPlayerOne(g) && g.currentPlayer === userId)
+                || (isBlack(p) && isPlayerTwo(g) && g.currentPlayer === userId)
+            )
+        );
 
+        return g.is2P ? true : canSelect;
     },
     isDarkPiece: function(){
         var s = Template.currentData();
@@ -92,9 +95,10 @@ Template.Square.events({
         var game = Template.parentData();
         var square = Template.currentData();
         var p = square.piece;
+        var is2P = game.is2P;
 
         //If its not your turn return
-        if(game.currentPlayer != userId)
+        if(is2P && game.currentPlayer != userId)
             return;
         //If your first tile selection has not been made
         var fromSquare = _.find(game.squares, function(square){
@@ -213,15 +217,34 @@ Template.Square.events({
     }
 });
 
+function isBlack(piece){
+  return piece.id.indexOf('b') === 0;
+}
+
+function isWhite(piece){
+  return piece.id.indexOf('w') === 0;
+}
+
+function isPlayerOne(game){
+  return game.currentPlayer === game.players[0];
+}
+
+function isPlayerTwo(game){
+  return game.currentPlayer !== game.players[0];
+}
+
 function canSelectFromSquare(p, g){
-    return (p.id.indexOf('w') === 0 && g.currentPlayer === g.players[0])
-    || (p.id.indexOf('b') === 0 && g.currentPlayer !== g.players[0])
+    if(!g.is2P)
+      return (isWhite(p) && g.currentPlayer === 'w') || (isBlack(p) && g.currentPlayer === 'b');
+
+    return (isWhite(p) && isPlayerOne(g)) || (isBlack(p) && isPlayerTwo(g))
 }
 
 function canSelectToSquare(p, g){
-    return !p
-        || (p.id.indexOf('w') === 0 && g.currentPlayer !== g.players[0])
-        || (p.id.indexOf('b') === 0 && g.currentPlayer === g.players[0])
+    if(!g.is2P)
+      return !p || (isWhite(p) && g.currentPlayer === 'b') || (isBlack(p) && g.currentPlayer === 'w');
+
+    return !p || (isWhite(p) && isPlayerTwo(g)) || (isBlack(p) && isPlayerOne(g));
 }
 
 function getRookMoves(square, squares){

@@ -107,14 +107,21 @@ function addPlayer(data) {
             }
         });
     }
-    Games.update({ _id: gameId }, { $push: { players: playerId } });
+    //Make game Two player
+    var game = Games.findOne({_id: gameId});
+    var playerOne = game.players[0];
+    Games.update(gameId, {$set: { currentPlayer: playerOne, is2P: true } });
+    //Add player two
+    Games.update(gameId, { $push: { players: playerId } });
+    resetGame(playerOne);
 }
 
 function newGame(userId){
     Games.insert({
         squares: Meteor.Game.generateSquares(),
         players: [userId],
-        currentPlayer: userId
+        currentPlayer: "w",
+        is2P: false
     });
 }
 
@@ -164,10 +171,15 @@ function updateGame(data){
     var game = Games.findOne({players: userId});
 
     if(isTurnChange){
-        var newCurrentPlayer = _.find(game.players, function(player){
+      var nextPlayer;
+      if(!game.is2P){
+        nextPlayer = game.currentPlayer === 'w' ? 'b' : 'w';
+      }else{
+        nextPlayer = _.find(game.players, function(player){
             return game.currentPlayer != player;
         });
-        Games.update(game._id, {$set: {currentPlayer: newCurrentPlayer, squares: squares}});
+      }
+      Games.update(game._id, {$set: {currentPlayer: nextPlayer, squares: squares}});
     }else{
         Games.update(game._id, {$set: {squares: squares}});
     }
